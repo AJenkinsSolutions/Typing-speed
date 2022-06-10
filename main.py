@@ -25,6 +25,10 @@ def main():
             self.title_label = Label(self.frame_home, text='Typing Speed test', font=('Helvetica', 24, 'bold'))
             self.title_label.grid(row=0, column=1, padx=120, pady=20)
 
+            #   Difficulty options
+            self.easy_mode_button = Button(self.frame_home, text='Easy', padx=60)
+            self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
+
 
 
 
