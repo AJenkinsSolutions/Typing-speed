@@ -96,7 +96,11 @@ def main():
 
             #Speed Wpm Label
             self.wpm_output_label = Label(self.frame_score_menu, text=f'Speed\n ##(WPM)')
-            self.wpm_output_label.grid(row=1, column=1 )
+            self.wpm_output_label.grid(row=1, column=1)
+
+            # Accuracy Label
+            self.accuracy_output_label = Label(self.frame_score_menu, text=f'Accuracy\n ##(%)')
+            self.accuracy_output_label.grid(row=2, column=1)
 
 
 
