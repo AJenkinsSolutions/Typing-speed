@@ -29,6 +29,9 @@ def main():
             self.easy_mode_button = Button(self.frame_home, text='Easy', padx=60)
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
+            self.medium_mode_button = Button(self.frame_home, text='Medium', padx=52)
+            self.medium_mode_button.grid(row=2, column=1, padx=20, pady=20)
+
 
 
 
