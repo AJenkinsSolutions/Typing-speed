@@ -70,7 +70,7 @@ def main():
             self.reset_button = Button(self.frame_main, text='Reset', padx=20)
             self.reset_button.grid(row=4, column=1, pady=5)
 
-            self.end_button = Button(self.frame_main, text='End', padx=24)
+            self.end_button = Button(self.frame_main, text='Home', command=lambda :self.back_Home(self.frame_home), padx=24)
             self.end_button.grid(row=5, column=1, pady=5)
 
 
@@ -92,6 +92,10 @@ def main():
             :return:
             """
             self.root.quit()
+
+        def back_Home(self, frame):
+            frame.tkraise()
+
 
         def start_Game(self):
             """
