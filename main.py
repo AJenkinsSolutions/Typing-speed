@@ -77,10 +77,10 @@ def main():
             self.reset_button = Button(self.frame_main, text='Reset', command=self.reset_Game, padx=20)
             self.reset_button.grid(row=4, column=1, pady=5)
 
-            self.end_button = Button(self.frame_main, text='Home',
-                                     command=lambda: self.back_Home(self.frame_home),
-                                     padx=24)
-            self.end_button.grid(row=5, column=1, pady=5)
+            self.home_button = Button(self.frame_main, text='Home',
+                                      command=lambda: self.back_Home(self.frame_home),
+                                      padx=24)
+            self.home_button.grid(row=5, column=1, pady=5)
 
             # ===================================== page 3 ====================================#
             self.frame_score_menu = Frame(self.root, background='grey')
@@ -106,7 +106,11 @@ def main():
             self.missed_words_label = Label(self.frame_score_menu, text=f'Missed\n ##')
             self.missed_words_label.grid(row=3, column=1)
 
-
+            #   Play again button
+            self.home_button = Button(self.frame_score_menu, text='Play Again',
+                                      command=lambda: self.back_Home(self.frame_home),
+                                      padx=24)
+            self.home_button.grid(row=4, column=1)
 
 
             #   Position Frames
@@ -138,6 +142,11 @@ def main():
             self.root.quit()
 
         def back_Home(self, frame):
+            """
+            Raise the home page frame
+            reset the game
+
+            """
             frame.tkraise()
             self.reset_Game()
 
@@ -155,6 +164,7 @@ def main():
         def reset_Game(self):
             """
             Resets timer
+            clear the text box
             resets random text
             resets all wpm and accuracy calculations
             resets all current game states
@@ -162,6 +172,7 @@ def main():
             """
             self.game_on = False
             self.reset_timer()
+            self.text_box.delete(1.0, END)
 
         def timer(self):
             if self.game_on:
