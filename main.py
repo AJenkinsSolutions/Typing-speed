@@ -19,11 +19,15 @@ def main():
             self.seconds = 0
             self.minutes = 0
 
-            #states
+            #   States
             self.game_on = None
             self.start_game_button_state = 'disabled'
+            #   Button states
+            self.easy_mode_button_state = 'active'
+            self.medium_mode_button_state = 'active'
+            self.hard_mode_button_state = 'active'
 
-            #Word generation
+            #   Word generation
 
             self.words = []
             self.sentence = None
@@ -44,13 +48,17 @@ def main():
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             #   Difficulty options
-            self.easy_mode_button = Button(self.frame_home, text='Easy', command=self.easy_mode_button_func, padx=40)
+            self.easy_mode_button = Button(self.frame_home, text='Easy', padx=40,
+                                           command=self.easy_mode_button_func)
+            self.easy_mode_button.configure(bg='#228B22', fg='white')
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
             self.medium_mode_button = Button(self.frame_home, text='Medium', padx=30)
+            self.medium_mode_button.configure(bg='#228B22', fg='white')
             self.medium_mode_button.grid(row=2, column=1, padx=20, pady=20)
 
             self.hard_mode_button = Button(self.frame_home, text='Hard', padx=40)
+            self.hard_mode_button.configure(bg='#228B22', fg='white')
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
             #   Start Game button
@@ -153,8 +161,17 @@ def main():
             change the bg color or button
             :return:
             """
+            # Generate texts
             self.generate_sentence(3)
-            self.easy_mode_button.config(bg='#4169E1', fg='white')
+            #   Change button Apperance
+            self.easy_mode_button.config(bg='#006400', fg='white', borderless=0)
+            # modes
+            self.medium_mode_button_state = 'disabled'
+            self.medium_mode_button.config(state=self.medium_mode_button_state)
+            self.hard_mode_button_state = 'disabled'
+            self.hard_mode_button.config(state=self.hard_mode_button_state)
+
+            #   Activate start
             self.start_game_button_state = 'active'
             self.start_game_button.config(state=self.start_game_button_state)
 
