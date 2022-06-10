@@ -15,7 +15,11 @@ def main():
             # Useful Vars
             self.seconds = 0
             self.minutes = 0
+
+            #Word generation
             self.game_on = None
+            self.words = []
+            self.sentence = None
 
             self.r = RandomWord()
             #   Creating our pages and configure
@@ -33,7 +37,7 @@ def main():
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             #   Difficulty options
-            self.easy_mode_button = Button(self.frame_home, text='Easy',command= padx=40)
+            self.easy_mode_button = Button(self.frame_home, text='Easy', command=lambda: self.generate_sentence(2), padx=40)
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
             self.medium_mode_button = Button(self.frame_home, text='Medium', padx=30)
@@ -123,6 +127,15 @@ def main():
             #   TKINTER Main loop
             self.root.mainloop()
 
+            #   Easy words
+        def generate_sentence(self, lines):
+            for n in range(lines):
+                self.words += [self.r.word() for w in range(8)]
+                self.words.append('\n')
+            self.sentence = ' '.join(self.words)
+            print(self.sentence, self.words)
+
+
         def return_typed_text(self, event):
             """
             bind return key
@@ -207,36 +220,38 @@ def main():
         def show_frame(self, frame):
             frame.tkraise()
 
-    s = RandomSentence()
-    d = s.sentence()
-    print(d)
-    for i in range(4):
-        print(s.sentence())
+    # s = RandomSentence()
+    # d = s.sentence()
+    # print(d)
+    # for i in range(4):
+    #     print(s.sentence())
 
 
 
-    #   Easy words
-    def generate_sentence(lines):
-        words = []
-        for i in range(lines):
-            words += [r.word(word_min_length=2, word_max_length=5) for i in range(8)]
-            words.append('\n')
-        sentence = ' '.join(words)
-        return sentence, words
+    # #   Easy words
+    # def generate_sentence(lines):
+    #     words = []
+    #     for i in range(lines):
+    #         words += [r.word(word_min_length=2, word_max_length=5) for i in range(8)]
+    #         words.append('\n')
+    #     sentence = ' '.join(words)
+    #     return sentence, words
 
-    sentence, raw_words = generate_sentence(3)
-    print(raw_words)
-    print(sentence)
+    # sentence, raw_words = generate_sentence(3)
+    # print(raw_words)
+    # print(sentence)
 
     #   checking for line breaks
     #   then removing them
-    for i, v in enumerate(raw_words):
-        if v == '\n':
-            raw_words.pop(i)
-        else:
-            print(v)
-    print(raw_words)
+    # for i, v in enumerate(raw_words):
+    #     if v == '\n':
+    #         raw_words.pop(i)
+    #     else:
+    #         print(v)
+    # print(raw_words)
     test = Window()
+
+
 
 
 if __name__ == '__main__':
