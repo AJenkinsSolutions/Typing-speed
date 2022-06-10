@@ -57,7 +57,8 @@ def main():
             self.medium_mode_button.configure(bg='#228B22', fg='white')
             self.medium_mode_button.grid(row=2, column=1, padx=20, pady=20)
 
-            self.hard_mode_button = Button(self.frame_home, text='Hard', padx=40)
+            self.hard_mode_button = Button(self.frame_home, text='Hard', padx=40,
+                                           command=self.hard_mode_button_func)
             self.hard_mode_button.configure(bg='#228B22', fg='white')
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
@@ -189,6 +190,22 @@ def main():
             #   Activate start
             self.start_game_button_state = 'active'
             self.start_game_button.config(state=self.start_game_button_state)
+
+        def hard_mode_button_func(self):
+            # Generate texts
+            self.generate_sentence(8)
+            #   Change button Apperance
+            self.hard_mode_button.config(bg='#006400', fg='white', borderless=0)
+            # modes
+            self.medium_mode_button_state = 'disabled'
+            self.medium_mode_button.config(state=self.medium_mode_button_state)
+            self.easy_mode_button_state = 'disabled'
+            self.easy_mode_button.config(state=self.easy_mode_button_state)
+
+            #   Activate start
+            self.start_game_button_state = 'active'
+            self.start_game_button.config(state=self.start_game_button_state)
+
 
 
 
