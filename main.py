@@ -43,14 +43,15 @@ def main():
 
             # ==================================== page 2 ====================================#
             # Main Frame
-            self.frame_main = Frame(self.root, background='grey')
+            self.frame_main = Frame(self.root, background='white')
 
             #   Main Game Buttons
             self.exit_button = Button(self.frame_main, text='Exit', command=self.Close)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
-
-
+            #   clock
+            self.clock = Label(self.frame_main, text='0:00', padx=20, font=("helvetica", 48), fg='black', bg='grey')
+            self.clock.grid(row=0, column=1, padx=150, pady=30)
 
 
 
