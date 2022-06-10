@@ -89,6 +89,10 @@ def main():
             self.exit_button = Button(self.frame_score_menu, text='Exit', command=self.Close)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
+            #   Title label
+            self.title_label = Label(self.frame_score_menu, text='Typing Speed test\n Thank you playing', font=('Helvetica', 24, 'bold'))
+            self.title_label.grid(row=0, column=1, padx=120, pady=30)
+
             #   Position Frames
             self.position_frames(self.frame_main, self.frame_home, self.frame_score_menu)
             #   Show Frame on screen
