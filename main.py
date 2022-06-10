@@ -4,7 +4,6 @@ from tkinter import *
 def main():
     class Window():
         def __init__(self):
-
             #   Creating main root
             self.root = Tk()
             self.root.title('Root Window')
@@ -14,6 +13,7 @@ def main():
 
             #   Creating our pages and configure
 
+            # ==================================== page 1 ====================================#
             #   Home Frame
             self.frame_home = Frame(self.root, background='white')
 
@@ -36,33 +36,36 @@ def main():
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
             #   Start Game button
-            self.start_game_button = Button(self.frame_home, text='Start Typing', padx=60, command= lambda: self.show_frame(self.frame_main))
+            self.start_game_button = Button(self.frame_home, text='Start Typing', padx=60
+                                            , command=lambda: self.show_frame(self.frame_main))
+
             self.start_game_button.grid(row=4, column=1, padx=20, pady=40)
 
-
-
-
-
-
-
-
+            # ==================================== page 2 ====================================#
+            # Main Frame
             self.frame_main = Frame(self.root, background='grey')
 
+            #   Main Game Buttons
+            self.exit_button = Button(self.frame_main, text='Exit', command=self.Close)
+            self.exit_button.grid(row=0, column=0, padx=20, pady=30)
+
+
+
+
+
+
+
+            # ===================================== page 3 ====================================#
             self.frame_score_menu = Frame(self.root, background='white')
+
 
             #   Position Frames
             self.position_frames(self.frame_main, self.frame_home, self.frame_score_menu)
             #   Show Frame on screen
             self.show_frame(self.frame_home)
 
-
-
-
-
-
             #   TKINTER Main loop
             self.root.mainloop()
-
 
         def Close(self):
             """
@@ -71,22 +74,12 @@ def main():
             """
             self.root.quit()
 
-
         def position_frames(self, f1, f2, f3):
             for frame in (f1, f2, f3):
                 frame.grid(row=0, column=0, sticky='nsew')
 
-
         def show_frame(self, frame):
             frame.tkraise()
-
-
-
-
-
-
-
-
 
     test = Window()
 
