@@ -85,6 +85,10 @@ def main():
             # ===================================== page 3 ====================================#
             self.frame_score_menu = Frame(self.root, background='grey')
 
+            #   Score Menu Game Buttons
+            self.exit_button = Button(self.frame_score_menu, text='Exit', command=self.Close)
+            self.exit_button.grid(row=0, column=0, padx=20, pady=30)
+
             #   Position Frames
             self.position_frames(self.frame_main, self.frame_home, self.frame_score_menu)
             #   Show Frame on screen
@@ -98,6 +102,7 @@ def main():
         def return_typed_text(self, event):
             """
             bind return key
+            capture uses typed text
             :param frame:
             :return:
             """
