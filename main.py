@@ -11,6 +11,10 @@ def main():
             self.root.columnconfigure(0, weight=1)
             self.root.geometry('600x400+100+100')
 
+            #Useful Vars
+            self.seconds = 0
+            self.minutes = 0
+
             #   Creating our pages and configure
 
             # ==================================== page 1 ====================================#
@@ -50,11 +54,12 @@ def main():
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
             #   clock
-            self.clock = Label(self.frame_main, text='0:00', padx=20, font=("helvetica", 48), fg='black', bg='grey')
+            self.clock = Label(self.frame_main, text='00:00', padx=20, font=("helvetica", 48), fg='black', bg='grey')
             self.clock.grid(row=0, column=1, padx=150, pady=30)
 
             #   Word Box
-            self.word_box_border = Frame(self.frame_main, width=60, height=20,  highlightbackground="blue", highlightthickness=2)
+            self.word_box_border = Frame(self.frame_main, width=60, height=20, highlightbackground="blue",
+                                         highlightthickness=2)
             self.word_box_border.grid(row=1, column=1, pady=5)
             self.word_box_label = Label(self.word_box_border, text='', bd=0)
             self.word_box_label.pack()
@@ -70,18 +75,19 @@ def main():
             self.reset_button = Button(self.frame_main, text='Reset', padx=20)
             self.reset_button.grid(row=4, column=1, pady=5)
 
-            self.end_button = Button(self.frame_main, text='Home', command=lambda :self.back_Home(self.frame_home), padx=24)
+            self.end_button = Button(self.frame_main, text='Home',
+                                     command=lambda: self.back_Home(self.frame_home),
+                                     padx=24)
             self.end_button.grid(row=5, column=1, pady=5)
-
 
             # ===================================== page 3 ====================================#
             self.frame_score_menu = Frame(self.root, background='white')
-
 
             #   Position Frames
             self.position_frames(self.frame_main, self.frame_home, self.frame_score_menu)
             #   Show Frame on screen
             self.show_frame(self.frame_home)
+
 
             #   TKINTER Main loop
             self.root.mainloop()
@@ -96,15 +102,29 @@ def main():
         def back_Home(self, frame):
             frame.tkraise()
 
-
         def start_Game(self):
             """
-            Start button in frame main
+            1: Start button in frame main
             will focus the users on the text box
-            start timer
+            2: Start timer
             :return:
             """
             self.text_box.focus_set()
+            self.timer()
+
+        def timer(self):
+            #   Increment clock by one
+            self.seconds += 1
+            #   Configure clock display
+            self.clock.config(text='00:' + str(self.seconds))
+            #   Clock display
+            if 10 > self.seconds > 0:
+                self.clock.config(text='00:0' + str(self.seconds))
+                self.clock.after(1000, self.timer)
+            elif self.seconds == 0:
+                self.clock.config(text='Done')
+            else:
+                self.clock.after(1000, self.timer)
 
         def position_frames(self, f1, f2, f3):
             for frame in (f1, f2, f3):
