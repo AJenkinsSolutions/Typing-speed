@@ -102,6 +102,8 @@ def main():
 
         def back_Home(self, frame):
             frame.tkraise()
+            self.reset_Game()
+
 
         def start_Game(self):
             """
