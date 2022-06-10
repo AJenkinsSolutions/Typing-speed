@@ -53,7 +53,20 @@ def main():
             self.clock = Label(self.frame_main, text='0:00', padx=20, font=("helvetica", 48), fg='black', bg='grey')
             self.clock.grid(row=0, column=1, padx=150, pady=30)
 
+            # Text Box
+            self.text_box = Text(self.frame_main, width=60, height=10, bd=1)
+            self.text_box.grid(row=1, column=1)
 
+            #Buttons
+
+            self.start_typing_button = Button(self.frame_main, text='Start', padx=20)
+            self.start_typing_button.grid(row=2, column=1, pady=10)
+
+            self.reset_button = Button(self.frame_main, text='Reset', padx=20)
+            self.reset_button.grid(row=3, column=1, pady=10)
+
+            self.end_button = Button(self.frame_main, text='End', padx=24)
+            self.end_button.grid(row=4, column=1, pady=10)
 
 
             # ===================================== page 3 ====================================#
