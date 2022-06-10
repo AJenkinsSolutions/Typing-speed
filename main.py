@@ -17,9 +17,13 @@ def main():
             #   Home Frame
             self.frame_home = Frame(self.root, background='white')
 
-            #Buttons
+            #   Buttons
             self.exit_button = Button(self.frame_home, text='Exit')
             self.exit_button.grid(row=0, column=0, padx=20, pady=20)
+
+            #   Title label
+            self.title_label = Label(self.frame_home, text='Typing Speed test', font=('Helvetica', 24, 'bold'))
+            self.title_label.grid(row=0, column=1, padx=120, pady=20)
 
 
 
