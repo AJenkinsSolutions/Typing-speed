@@ -93,6 +93,16 @@ def main():
             self.title_label = Label(self.frame_score_menu, text='Typing Speed test\n Thank you playing', font=('Helvetica', 24, 'bold'))
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
+
+            #Speed Wpm Label
+            self.wpm_output_label = Label(self.frame_score_menu, text=f'Speed\n ##(WPM)')
+            self.wpm_output_label.grid(row=1, column=1 )
+
+
+
+
+
+
             #   Position Frames
             self.position_frames(self.frame_main, self.frame_home, self.frame_score_menu)
             #   Show Frame on screen
