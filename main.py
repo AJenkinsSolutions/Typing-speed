@@ -10,7 +10,7 @@ def main():
             self.root.title('Root Window')
             self.root.rowconfigure(0, weight=1)
             self.root.columnconfigure(0, weight=1)
-            self.root.geometry('600x500+100+100')
+            self.root.geometry('600x400+100+100')
 
             #   Creating our pages and configure
 
@@ -18,12 +18,12 @@ def main():
             self.frame_home = Frame(self.root, background='white')
 
             #   Buttons
-            self.exit_button = Button(self.frame_home, text='Exit')
-            self.exit_button.grid(row=0, column=0, padx=20, pady=20)
+            self.exit_button = Button(self.frame_home, text='Exit', command=self.Close)
+            self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
             #   Title label
             self.title_label = Label(self.frame_home, text='Typing Speed test', font=('Helvetica', 24, 'bold'))
-            self.title_label.grid(row=0, column=1, padx=120, pady=20)
+            self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             #   Difficulty options
             self.easy_mode_button = Button(self.frame_home, text='Easy', padx=40)
@@ -35,8 +35,9 @@ def main():
             self.hard_mode_button = Button(self.frame_home, text='Hard', padx=40)
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
+            #   Start Game button
             self.start_game_button = Button(self.frame_home, text='Start Typing', padx=60)
-            self.start_game_button.grid(row=4, column=1, padx=20, pady=60)
+            self.start_game_button.grid(row=4, column=1, padx=20, pady=40)
 
 
 
@@ -63,6 +64,12 @@ def main():
             self.root.mainloop()
 
 
+        def Close(self):
+            """
+            Closes the root window
+            :return:
+            """
+            self.root.quit()
 
 
         def position_frames(self, f1, f2, f3):
