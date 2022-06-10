@@ -36,7 +36,7 @@ def main():
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
             #   Start Game button
-            self.start_game_button = Button(self.frame_home, text='Start Typing', padx=60)
+            self.start_game_button = Button(self.frame_home, text='Start Typing', padx=60, command= lambda: self.show_frame(self.frame_main))
             self.start_game_button.grid(row=4, column=1, padx=20, pady=40)
 
 
