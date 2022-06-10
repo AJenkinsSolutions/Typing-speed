@@ -26,16 +26,17 @@ def main():
             self.title_label.grid(row=0, column=1, padx=120, pady=20)
 
             #   Difficulty options
-            self.easy_mode_button = Button(self.frame_home, text='Easy', padx=60)
+            self.easy_mode_button = Button(self.frame_home, text='Easy', padx=40)
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
-            self.medium_mode_button = Button(self.frame_home, text='Medium', padx=52)
+            self.medium_mode_button = Button(self.frame_home, text='Medium', padx=30)
             self.medium_mode_button.grid(row=2, column=1, padx=20, pady=20)
 
-            self.hard_mode_button = Button(self.frame_home, text='Hard', padx=60)
+            self.hard_mode_button = Button(self.frame_home, text='Hard', padx=40)
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
-
+            self.start_game_button = Button(self.frame_home, text='Start Typing', padx=60)
+            self.start_game_button.grid(row=4, column=1, padx=20, pady=60)
 
 
 
