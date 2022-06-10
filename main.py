@@ -14,6 +14,7 @@ def main():
             #Useful Vars
             self.seconds = 0
             self.minutes = 0
+            self.game_on = None
 
             #   Creating our pages and configure
 
@@ -72,7 +73,7 @@ def main():
             self.start_typing_button = Button(self.frame_main, text='Start', command=self.start_Game, padx=20)
             self.start_typing_button.grid(row=3, column=1, pady=(10, 5))
 
-            self.reset_button = Button(self.frame_main, text='Reset', padx=20)
+            self.reset_button = Button(self.frame_main, text='Reset', command=self.reset_Game, padx=20)
             self.reset_button.grid(row=4, column=1, pady=5)
 
             self.end_button = Button(self.frame_main, text='Home',
@@ -109,22 +110,43 @@ def main():
             2: Start timer
             :return:
             """
+            self.game_on = True
             self.text_box.focus_set()
             self.timer()
 
+        def reset_Game(self):
+            """
+            Resets timer
+            resets random text
+            resets all wpm and accuracy calculations
+            resets all current game states
+            :return:
+            """
+            self.game_on = False
+            self.reset_timer()
+
         def timer(self):
-            #   Increment clock by one
-            self.seconds += 1
-            #   Configure clock display
-            self.clock.config(text='00:' + str(self.seconds))
-            #   Clock display
-            if 10 > self.seconds > 0:
-                self.clock.config(text='00:0' + str(self.seconds))
-                self.clock.after(1000, self.timer)
-            elif self.seconds == 0:
-                self.clock.config(text='Done')
+            if self.game_on:
+                #   Increment clock by one
+                self.seconds += 1
+                #   Configure clock display
+                self.clock.config(text='00:' + str(self.seconds))
+                #   Clock display
+                if 10 > self.seconds > 0:
+                    self.clock.config(text='00:0' + str(self.seconds))
+                    self.clock.after(1000, self.timer)
+                elif self.seconds == 0:
+                    self.clock.config(text='Done')
+                else:
+                    self.clock.after(1000, self.timer)
             else:
-                self.clock.after(1000, self.timer)
+                self.reset_timer()
+
+        def reset_timer(self):
+            self.seconds = 0
+            self.clock.config(text='00:0' + str(self.seconds))
+
+
 
         def position_frames(self, f1, f2, f3):
             for frame in (f1, f2, f3):
