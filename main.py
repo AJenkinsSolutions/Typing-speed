@@ -1,4 +1,5 @@
 from tkinter import *
+from wonderwords import RandomSentence, RandomWord
 
 
 def main():
@@ -11,11 +12,12 @@ def main():
             self.root.columnconfigure(0, weight=1)
             self.root.geometry('600x400+100+100')
 
-            #Useful Vars
+            # Useful Vars
             self.seconds = 0
             self.minutes = 0
             self.game_on = None
 
+            self.r = RandomWord()
             #   Creating our pages and configure
 
             # ==================================== page 1 ====================================#
@@ -31,7 +33,7 @@ def main():
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             #   Difficulty options
-            self.easy_mode_button = Button(self.frame_home, text='Easy', padx=40)
+            self.easy_mode_button = Button(self.frame_home, text='Easy',command= padx=40)
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
             self.medium_mode_button = Button(self.frame_home, text='Medium', padx=30)
@@ -83,45 +85,43 @@ def main():
             self.home_button.grid(row=5, column=1, pady=5)
 
             # ===================================== page 3 ====================================#
-            self.frame_score_menu = Frame(self.root, background='grey')
+            self.frame_score_menu = Frame(self.root, background='white')
 
             #   Score Menu Game Buttons
             self.exit_button = Button(self.frame_score_menu, text='Exit', command=self.Close)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
             #   Title label
-            self.title_label = Label(self.frame_score_menu, text='Typing Speed test\n Thank you playing', font=('Helvetica', 24, 'bold'))
+            self.title_label = Label(self.frame_score_menu, text='Typing Speed test\n Thank you playing',
+                                     font=('Helvetica', 24, 'bold'))
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
-
-            #Speed Wpm Label
-            self.wpm_output_label = Label(self.frame_score_menu, text=f'Speed\n ##(WPM)')
-            self.wpm_output_label.grid(row=1, column=1)
+            # Speed Wpm Label
+            self.wpm_output_label = Label(self.frame_score_menu, text=f'Speed\n ##(WPM)', borderwidth=1, relief='solid')
+            self.wpm_output_label.grid(row=1, column=1, pady=5)
 
             # Accuracy Label
-            self.accuracy_output_label = Label(self.frame_score_menu, text=f'Accuracy\n ##(%)')
-            self.accuracy_output_label.grid(row=2, column=1)
+            self.accuracy_output_label = Label(self.frame_score_menu, text=f'Accuracy\n ##(%)', borderwidth=1,
+                                               relief='solid')
+            self.accuracy_output_label.grid(row=2, column=1, pady=5)
 
             # Speed Wpm Label
-            self.missed_words_label = Label(self.frame_score_menu, text=f'Missed\n ##')
-            self.missed_words_label.grid(row=3, column=1)
+            self.missed_words_label = Label(self.frame_score_menu, text=f'Missed\n ##', borderwidth=1, relief='solid')
+            self.missed_words_label.grid(row=3, column=1, pady=5)
 
             #   Play again button
             self.home_button = Button(self.frame_score_menu, text='Play Again',
                                       command=lambda: self.back_Home(self.frame_home),
                                       padx=24)
-            self.home_button.grid(row=4, column=1)
-
+            self.home_button.grid(row=4, column=1, pady=5)
 
             #   Position Frames
             self.position_frames(self.frame_main, self.frame_home, self.frame_score_menu)
             #   Show Frame on screen
             self.show_frame(self.frame_home)
 
-
             #   TKINTER Main loop
             self.root.mainloop()
-
 
         def return_typed_text(self, event):
             """
@@ -131,8 +131,6 @@ def main():
             :return:
             """
             self.show_frame(self.frame_score_menu)
-
-
 
         def Close(self):
             """
@@ -172,7 +170,7 @@ def main():
             """
             self.game_on = False
             self.reset_timer()
-            self.text_box.delete(1.0, END)
+            self.clear_text_box()
 
         def timer(self):
             if self.game_on:
@@ -195,6 +193,13 @@ def main():
             self.seconds = 0
             self.clock.config(text='00:0' + str(self.seconds))
 
+        def clear_text_box(self):
+            """
+            Clears all text wihtin textbox
+            :return:
+            """
+            self.text_box.delete(1.0, END)
+
         def position_frames(self, f1, f2, f3):
             for frame in (f1, f2, f3):
                 frame.grid(row=0, column=0, sticky='nsew')
@@ -202,6 +207,35 @@ def main():
         def show_frame(self, frame):
             frame.tkraise()
 
+    s = RandomSentence()
+    d = s.sentence()
+    print(d)
+    for i in range(4):
+        print(s.sentence())
+
+
+
+    #   Easy words
+    def generate_sentence(lines):
+        words = []
+        for i in range(lines):
+            words += [r.word(word_min_length=2, word_max_length=5) for i in range(8)]
+            words.append('\n')
+        sentence = ' '.join(words)
+        return sentence, words
+
+    sentence, raw_words = generate_sentence(3)
+    print(raw_words)
+    print(sentence)
+
+    #   checking for line breaks
+    #   then removing them
+    for i, v in enumerate(raw_words):
+        if v == '\n':
+            raw_words.pop(i)
+        else:
+            print(v)
+    print(raw_words)
     test = Window()
 
 
