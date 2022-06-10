@@ -67,6 +67,7 @@ def main():
 
             # Text Box
             self.text_box = Text(self.frame_main, width=60, height=5, bd=1)
+            self.text_box.bind("<Return>", self.return_typed_text)
             self.text_box.grid(row=2, column=1, pady=5)
 
             #   Buttons
@@ -82,7 +83,7 @@ def main():
             self.end_button.grid(row=5, column=1, pady=5)
 
             # ===================================== page 3 ====================================#
-            self.frame_score_menu = Frame(self.root, background='white')
+            self.frame_score_menu = Frame(self.root, background='grey')
 
             #   Position Frames
             self.position_frames(self.frame_main, self.frame_home, self.frame_score_menu)
@@ -92,6 +93,17 @@ def main():
 
             #   TKINTER Main loop
             self.root.mainloop()
+
+
+        def return_typed_text(self, event):
+            """
+            bind return key
+            :param frame:
+            :return:
+            """
+            self.show_frame(self.frame_score_menu)
+
+
 
         def Close(self):
             """
@@ -103,7 +115,6 @@ def main():
         def back_Home(self, frame):
             frame.tkraise()
             self.reset_Game()
-
 
         def start_Game(self):
             """
@@ -147,8 +158,6 @@ def main():
         def reset_timer(self):
             self.seconds = 0
             self.clock.config(text='00:0' + str(self.seconds))
-
-
 
         def position_frames(self, f1, f2, f3):
             for frame in (f1, f2, f3):
