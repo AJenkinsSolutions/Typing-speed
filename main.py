@@ -3,6 +3,8 @@ from tkmacosx import Button
 from wonderwords import RandomSentence, RandomWord
 
 
+BLUE = '#4169E1'
+
 def main():
     class Window():
         def __init__(self):
@@ -153,7 +155,10 @@ def main():
             """
             self.generate_sentence(3)
             self.easy_mode_button.config(bg='#4169E1', fg='white')
-            self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
+            self.start_game_button_state = 'active'
+            self.start_game_button.config(state=self.start_game_button_state)
+
+
 
 
         def return_typed_text(self, event):
