@@ -102,7 +102,9 @@ def main():
             self.accuracy_output_label = Label(self.frame_score_menu, text=f'Accuracy\n ##(%)')
             self.accuracy_output_label.grid(row=2, column=1)
 
-
+            # Speed Wpm Label
+            self.missed_words_label = Label(self.frame_score_menu, text=f'Missed\n ##')
+            self.missed_words_label.grid(row=3, column=1)
 
 
 
