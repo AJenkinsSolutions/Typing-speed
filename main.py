@@ -16,8 +16,12 @@ def main():
             self.seconds = 0
             self.minutes = 0
 
-            #Word generation
+            #states
             self.game_on = None
+            self.start_game_button_state = 'disabled'
+
+            #Word generation
+
             self.words = []
             self.sentence = None
 
@@ -37,7 +41,7 @@ def main():
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             #   Difficulty options
-            self.easy_mode_button = Button(self.frame_home, text='Easy', command=lambda: self.generate_sentence(2), padx=40)
+            self.easy_mode_button = Button(self.frame_home, text='Easy', command=lambda: self.generate_sentence(3), padx=40)
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
             self.medium_mode_button = Button(self.frame_home, text='Medium', padx=30)
@@ -47,8 +51,9 @@ def main():
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
             #   Start Game button
-            self.start_game_button = Button(self.frame_home, text='Start Typing', padx=60
-                                            , command=lambda: self.show_frame(self.frame_main))
+            self.start_game_button = Button(self.frame_home, text='Start Typing', padx=60,
+                                            state=self.start_game_button_state,
+                                            command=lambda: self.show_frame(self.frame_main))
 
             self.start_game_button.grid(row=4, column=1, padx=20, pady=40)
 
@@ -129,6 +134,7 @@ def main():
 
             #   Easy words
         def generate_sentence(self, lines):
+
             for n in range(lines):
                 self.words += [self.r.word() for w in range(8)]
                 self.words.append('\n')
