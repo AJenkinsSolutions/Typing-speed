@@ -1,4 +1,5 @@
 from tkinter import *
+from tkmacosx import Button
 from wonderwords import RandomSentence, RandomWord
 
 
@@ -41,7 +42,7 @@ def main():
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             #   Difficulty options
-            self.easy_mode_button = Button(self.frame_home, text='Easy', command=lambda: self.generate_sentence(3), padx=40)
+            self.easy_mode_button = Button(self.frame_home, text='Easy', command=self.easy_mode_button_func, padx=40)
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
             self.medium_mode_button = Button(self.frame_home, text='Medium', padx=30)
@@ -140,6 +141,19 @@ def main():
                 self.words.append('\n')
             self.sentence = ' '.join(self.words)
             print(self.sentence, self.words)
+
+        def easy_mode_button_func(self):
+            """
+            easy mode pressed
+            generate our text
+            activate the start game button
+            deactivate the other modes
+            change the bg color or button
+            :return:
+            """
+            self.generate_sentence(3)
+            self.easy_mode_button.config(bg='#4169E1', fg='white')
+            self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
 
         def return_typed_text(self, event):
