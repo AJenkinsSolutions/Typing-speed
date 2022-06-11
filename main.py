@@ -3,6 +3,8 @@ from tkinter import ttk
 from tkmacosx import Button
 from wonderwords import RandomSentence, RandomWord
 import jellyfish
+from timeit import default_timer as timer
+from datetime import timedelta
 
 
 
@@ -36,6 +38,10 @@ def main():
             self.sentence = None
 
             self.user_typed = None
+            self.accuracy = None
+            self.correctly_typed = None
+            self.errors = 0
+            self.total_n_characters = 0
 
             self.r = RandomWord()
             #   Creating our pages and configure
@@ -97,7 +103,6 @@ def main():
 
             # Text Box
             self.text_box = Text(self.frame_main, width=60, height=5, bd=1, state=self.text_box_state)
-            self.text_box.bind("<Return>", self.return_typed_text)
             self.text_box.grid(row=2, column=1, pady=5)
 
             #   Buttons
@@ -239,7 +244,15 @@ def main():
             :return:
             """
             raw_typed_words = self.text_box.get(1.0, END).split()
+            self.end = timer()
             print(raw_typed_words)
+            print('hello')
+
+            results = timedelta(seconds=self.end - self.start).seconds
+            raw_minutes = results / 60
+            print(f'it took you: {results} seconds')
+            minutes = round(raw_minutes, 2)
+            print(f'it took you: {minutes} minutes')
             # print(self.words)
 
             #Removes line breaks from the list we wanna check
@@ -258,21 +271,22 @@ def main():
             print(self.words)
             print(raw_typed_words)
 
-            # error rate calulations
-            errors = 0
-            total_n_characters = 0
+            # error rate calculations
             for i in range(len(self.words)):
-                errors += jellyfish.damerau_levenshtein_distance(self.words[i], raw_typed_words[i])
-                total_n_characters += len(self.words[i])
+                self.errors += jellyfish.damerau_levenshtein_distance(self.words[i], raw_typed_words[i])
+                self.total_n_characters += len(self.words[i])
 
-            print('total_chars', total_n_characters)
-            print('errors', errors)
+            print('total_chars', self.total_n_characters)
+            print('errors', self.errors)
 
-            correctly_typed = total_n_characters - errors
-            print('number of correctly typed', correctly_typed)
+            self.correctly_typed = self.total_n_characters - self.errors
+            print('number of correctly typed', self.correctly_typed)
 
-            accuracy = round(correctly_typed / total_n_characters * 100)
-            print(f'Accuracy: {accuracy}%')
+            self.accuracy = round(self.correctly_typed / self.total_n_characters * 100)
+            print(f'Accuracy: {self.accuracy}%')
+
+            #   wpm calculations
+
 
             self.show_frame(self.frame_score_menu)
 
@@ -306,6 +320,11 @@ def main():
             self.text_box.config(state=self.text_box_state)
             self.text_box.focus_set()
             self.timer()
+            self.start = timer()
+            self.text_box.bind("<Return>", self.return_typed_text)
+
+
+
 
         def reset_Game(self):
             """
