@@ -2,6 +2,8 @@ from tkinter import *
 from tkinter import ttk
 from tkmacosx import Button
 from wonderwords import RandomSentence, RandomWord
+import jellyfish
+
 
 
 BLUE = '#4169E1'
@@ -255,6 +257,8 @@ def main():
             self.words = self.words[:len_user_typed]
             print(self.words)
             print(raw_typed_words)
+
+            # error rate calulations
 
             self.show_frame(self.frame_score_menu)
 
