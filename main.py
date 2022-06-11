@@ -33,6 +33,8 @@ def main():
             self.words = None
             self.sentence = None
 
+            self.user_typed = None
+
             self.r = RandomWord()
             #   Creating our pages and configure
 
@@ -221,6 +223,11 @@ def main():
         def add_words_to_label(self):
             self.word_box_label.config(text=self.sentence)
 
+        def get_users_typed(self):
+            raw_typed_words = self.text_box.get(1.0, END).split()
+            print(raw_typed_words)
+
+
 
         def return_typed_text(self, event):
             """
@@ -229,6 +236,26 @@ def main():
             :param frame:
             :return:
             """
+            raw_typed_words = self.text_box.get(1.0, END).split()
+            print(raw_typed_words)
+            # print(self.words)
+
+            #Removes line breaks from the list we wanna check
+            for i, v in enumerate(self.words):
+                if v == '\n':
+                    self.words.pop(i)
+            # print('Line bresak removed', self.words)
+
+            #get the lenght of both list
+            len_user_typed = len(raw_typed_words)
+            print(len_user_typed)
+            print(len(self.words))
+
+            #Create new word list to check for errors
+            self.words = self.words[:len_user_typed]
+            print(self.words)
+            print(raw_typed_words)
+
             self.show_frame(self.frame_score_menu)
 
         def Close(self):
@@ -331,8 +358,8 @@ def main():
     # print(raw_words)
     # print(sentence)
 
-    #   checking for line breaks
-    #   then removing them
+      # checking for line breaks
+      # then removing them
     # for i, v in enumerate(raw_words):
     #     if v == '\n':
     #         raw_words.pop(i)
