@@ -87,6 +87,7 @@ def main():
             self.word_box_border = Frame(self.frame_main, width=60, height=20, highlightbackground="blue",
                                          highlightthickness=2)
             self.word_box_border.grid(row=1, column=1, pady=5)
+
             self.word_box_label = Label(self.word_box_border, text='', bd=0)
             self.word_box_label.pack()
 
@@ -167,17 +168,19 @@ def main():
             # Generate texts
             if self.sentence is None and self.words is None:
                 self.generate_sentence(3)
-                #   Change button Apperance
+                self.add_words_to_label()
+                #   Change button Appearance
                 self.easy_mode_button.config(bg='#006400', fg='white', borderless=0)
-                # modes
+                # Clean up other modes states
                 self.medium_mode_button_state = 'disabled'
                 self.medium_mode_button.config(state=self.medium_mode_button_state)
                 self.hard_mode_button_state = 'disabled'
                 self.hard_mode_button.config(state=self.hard_mode_button_state)
 
-                #   Activate start
+                #   Activate start button
                 self.start_game_button_state = 'active'
                 self.start_game_button.config(state=self.start_game_button_state)
+
 
             # #clean up so no more text is generated
             # self.easy_mode_button_state = 'disabled'
@@ -214,6 +217,9 @@ def main():
                 #   Activate start
                 self.start_game_button_state = 'active'
                 self.start_game_button.config(state=self.start_game_button_state)
+
+        def add_words_to_label(self):
+            self.word_box_label.config(text=self.sentence)
 
 
         def return_typed_text(self, event):
