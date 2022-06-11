@@ -6,9 +6,8 @@ import jellyfish
 from timeit import default_timer as timer
 from datetime import timedelta
 
-
-
 BLUE = '#4169E1'
+
 
 def main():
     class Window():
@@ -157,6 +156,7 @@ def main():
             self.root.mainloop()
 
             #   Easy words
+
         def generate_sentence(self, lines):
             self.words = []
             for n in range(lines):
@@ -189,7 +189,6 @@ def main():
                 #   Activate start button
                 self.start_game_button_state = 'active'
                 self.start_game_button.config(state=self.start_game_button_state)
-
 
             # #clean up so no more text is generated
             # self.easy_mode_button_state = 'disabled'
@@ -234,8 +233,6 @@ def main():
             raw_typed_words = self.text_box.get(1.0, END).split()
             print(raw_typed_words)
 
-
-
         def return_typed_text(self, event):
             """
             bind return key
@@ -246,27 +243,22 @@ def main():
             raw_typed_words = self.text_box.get(1.0, END).split()
             self.end = timer()
             print(raw_typed_words)
-            print('hello')
 
-            results = timedelta(seconds=self.end - self.start).seconds
-            raw_minutes = results / 60
-            print(f'it took you: {results} seconds')
-            minutes = round(raw_minutes, 2)
-            print(f'it took you: {minutes} minutes')
+
             # print(self.words)
 
-            #Removes line breaks from the list we wanna check
+            # Removes line breaks from the list we wanna check
             for i, v in enumerate(self.words):
                 if v == '\n':
                     self.words.pop(i)
             # print('Line bresak removed', self.words)
 
-            #get the lenght of both list
+            # get the lenght of both list
             len_user_typed = len(raw_typed_words)
             print(len_user_typed)
             print(len(self.words))
 
-            #Create new word list to check for errors
+            # Create new word list to check for errors
             self.words = self.words[:len_user_typed]
             print(self.words)
             print(raw_typed_words)
@@ -286,6 +278,17 @@ def main():
             print(f'Accuracy: {self.accuracy}%')
 
             #   wpm calculations
+            results = timedelta(seconds=self.end - self.start).seconds
+            raw_minutes = results / 60
+            print(f'it took you: {results} seconds')
+            minutes = round(raw_minutes, 2)
+            print(f'it took you: {minutes} minutes')
+
+            #Gross WPM
+            # all typed entires divided by 5 divded by minutes
+            self.gross_words_per_minute = round((len_user_typed / 5) / minutes, 1)
+            print(f'your gross words per minute {self.gross_words_per_minute}')
+
 
 
             self.show_frame(self.frame_score_menu)
@@ -313,7 +316,7 @@ def main():
             2: Start timer
             :return:
             """
-            #Adjust games state
+            # Adjust games state
             self.game_on = True
             #   Configure text box
             self.text_box_state = 'normal'
@@ -322,9 +325,6 @@ def main():
             self.timer()
             self.start = timer()
             self.text_box.bind("<Return>", self.return_typed_text)
-
-
-
 
         def reset_Game(self):
             """
@@ -380,8 +380,6 @@ def main():
     # for i in range(4):
     #     print(s.sentence())
 
-
-
     # #   Easy words
     # def generate_sentence(lines):
     #     words = []
@@ -395,8 +393,8 @@ def main():
     # print(raw_words)
     # print(sentence)
 
-      # checking for line breaks
-      # then removing them
+    # checking for line breaks
+    # then removing them
     # for i, v in enumerate(raw_words):
     #     if v == '\n':
     #         raw_words.pop(i)
@@ -404,8 +402,6 @@ def main():
     #         print(v)
     # print(raw_words)
     test = Window()
-
-
 
 
 if __name__ == '__main__':
