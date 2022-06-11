@@ -259,6 +259,20 @@ def main():
             print(raw_typed_words)
 
             # error rate calulations
+            errors = 0
+            total_n_characters = 0
+            for i in range(len(self.words)):
+                errors += jellyfish.damerau_levenshtein_distance(self.words[i], raw_typed_words[i])
+                total_n_characters += len(self.words[i])
+
+            print('total_chars', total_n_characters)
+            print('errors', errors)
+
+            correctly_typed = total_n_characters - errors
+            print('number of correctly typed', correctly_typed)
+
+            accuracy = round(correctly_typed / total_n_characters * 100)
+            print(f'Accuracy: {accuracy}%')
 
             self.show_frame(self.frame_score_menu)
 
