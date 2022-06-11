@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 from tkmacosx import Button
 from wonderwords import RandomSentence, RandomWord
 
@@ -22,13 +23,14 @@ def main():
             #   States
             self.game_on = None
             self.start_game_button_state = 'disabled'
+            self.text_box_state = 'disabled'
             #   Button states
             self.easy_mode_button_state = 'active'
             self.medium_mode_button_state = 'active'
             self.hard_mode_button_state = 'active'
 
             #   Word generation
-            self.words = []
+            self.words = None
             self.sentence = None
 
             self.r = RandomWord()
@@ -53,7 +55,7 @@ def main():
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
             self.medium_mode_button = Button(self.frame_home, text='Medium', padx=30,
-                                             command=self.meduim_mode_button_func)
+                                             command=self.medium_mode_button_func)
             self.medium_mode_button.configure(bg='#228B22', fg='white')
             self.medium_mode_button.grid(row=2, column=1, padx=20, pady=20)
 
@@ -89,7 +91,7 @@ def main():
             self.word_box_label.pack()
 
             # Text Box
-            self.text_box = Text(self.frame_main, width=60, height=5, bd=1)
+            self.text_box = Text(self.frame_main, width=60, height=5, bd=1, state=self.text_box_state)
             self.text_box.bind("<Return>", self.return_typed_text)
             self.text_box.grid(row=2, column=1, pady=5)
 
@@ -146,7 +148,7 @@ def main():
 
             #   Easy words
         def generate_sentence(self, lines):
-
+            self.words = []
             for n in range(lines):
                 self.words += [self.r.word() for w in range(8)]
                 self.words.append('\n')
@@ -163,51 +165,55 @@ def main():
             :return:
             """
             # Generate texts
-            self.generate_sentence(3)
-            #   Change button Apperance
-            self.easy_mode_button.config(bg='#006400', fg='white', borderless=0)
-            # modes
-            self.medium_mode_button_state = 'disabled'
-            self.medium_mode_button.config(state=self.medium_mode_button_state)
-            self.hard_mode_button_state = 'disabled'
-            self.hard_mode_button.config(state=self.hard_mode_button_state)
+            if self.sentence is None and self.words is None:
+                self.generate_sentence(3)
+                #   Change button Apperance
+                self.easy_mode_button.config(bg='#006400', fg='white', borderless=0)
+                # modes
+                self.medium_mode_button_state = 'disabled'
+                self.medium_mode_button.config(state=self.medium_mode_button_state)
+                self.hard_mode_button_state = 'disabled'
+                self.hard_mode_button.config(state=self.hard_mode_button_state)
 
-            #   Activate start
-            self.start_game_button_state = 'active'
-            self.start_game_button.config(state=self.start_game_button_state)
+                #   Activate start
+                self.start_game_button_state = 'active'
+                self.start_game_button.config(state=self.start_game_button_state)
 
-        def meduim_mode_button_func(self):
-            # Generate texts
-            self.generate_sentence(5)
-            #   Change button Apperance
-            self.medium_mode_button.config(bg='#006400', fg='white', borderless=0)
-            # modes
-            self.easy_mode_button_state = 'disabled'
-            self.easy_mode_button.config(state=self.easy_mode_button_state)
-            self.hard_mode_button_state = 'disabled'
-            self.hard_mode_button.config(state=self.hard_mode_button_state)
+            # #clean up so no more text is generated
+            # self.easy_mode_button_state = 'disabled'
+            # self.easy_mode_button.config(state=self.easy_mode_button_state)
 
-            #   Activate start
-            self.start_game_button_state = 'active'
-            self.start_game_button.config(state=self.start_game_button_state)
+        def medium_mode_button_func(self):
+            if self.sentence is None and self.words is None:
+                # Generate texts
+                self.generate_sentence(5)
+                #   Change button Apperance
+                self.medium_mode_button.config(bg='#006400', fg='white', borderless=0)
+                # modes
+                self.easy_mode_button_state = 'disabled'
+                self.easy_mode_button.config(state=self.easy_mode_button_state)
+                self.hard_mode_button_state = 'disabled'
+                self.hard_mode_button.config(state=self.hard_mode_button_state)
+
+                #   Activate start
+                self.start_game_button_state = 'active'
+                self.start_game_button.config(state=self.start_game_button_state)
 
         def hard_mode_button_func(self):
-            # Generate texts
-            self.generate_sentence(8)
-            #   Change button Apperance
-            self.hard_mode_button.config(bg='#006400', fg='white', borderless=0)
-            # modes
-            self.medium_mode_button_state = 'disabled'
-            self.medium_mode_button.config(state=self.medium_mode_button_state)
-            self.easy_mode_button_state = 'disabled'
-            self.easy_mode_button.config(state=self.easy_mode_button_state)
+            if self.sentence is None and self.words is None:
+                # Generate texts
+                self.generate_sentence(8)
+                #   Change button Apperance
+                self.hard_mode_button.config(bg='#006400', fg='white', borderless=0)
+                # modes
+                self.medium_mode_button_state = 'disabled'
+                self.medium_mode_button.config(state=self.medium_mode_button_state)
+                self.easy_mode_button_state = 'disabled'
+                self.easy_mode_button.config(state=self.easy_mode_button_state)
 
-            #   Activate start
-            self.start_game_button_state = 'active'
-            self.start_game_button.config(state=self.start_game_button_state)
-
-
-
+                #   Activate start
+                self.start_game_button_state = 'active'
+                self.start_game_button.config(state=self.start_game_button_state)
 
 
         def return_typed_text(self, event):
@@ -242,7 +248,11 @@ def main():
             2: Start timer
             :return:
             """
+            #Adjust games state
             self.game_on = True
+            #   Configure text box
+            self.text_box_state = 'normal'
+            self.text_box.config(state=self.text_box_state)
             self.text_box.focus_set()
             self.timer()
 
