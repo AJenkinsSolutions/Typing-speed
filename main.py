@@ -240,76 +240,90 @@ def main():
             :param frame:
             :return:
             """
-            data = self.text_box.get(1.0, END).lower()
-            raw_typed_words = data.split()
-            self.end = timer()
-            print(raw_typed_words)
 
+            data = self.text_box.get(1.0, END).lower()
+            self.raw_typed_words = data.split()
+            self.end = timer()
 
             # Removes line breaks from the list we wanna check
             for i, v in enumerate(self.words):
                 if v == '\n':
                     self.words.pop(i)
-            # print('Line bresak removed', self.words)
 
-            # get the lenght of both list
-            len_user_typed = len(raw_typed_words)
-            print(len_user_typed)
-            print(len(self.words))
-
+            # get the length of both list
+            len_user_typed = len(self.raw_typed_words)
             # Create new word list to check for errors
             self.words = self.words[:len_user_typed]
-            print(self.words)
-            print(raw_typed_words)
 
-            # error rate calculations
-            for i in range(len(self.words)):
-                self.errors += jellyfish.damerau_levenshtein_distance(self.words[i], raw_typed_words[i])
-                self.total_n_characters += len(self.words[i])
+            #   Error rate func
+            self.error_rate_calculations()
 
-            print('total_chars', self.total_n_characters)
-            print('errors', self.errors)
+            #   Correctly Typed
+            self.calculate_correctly_typed()
 
-            self.correctly_typed = self.total_n_characters - self.errors
-            print('number of correctly typed', self.correctly_typed)
+            #   Calculate Accuracy
+            self.calculate_accuracy()
 
-            self.accuracy = round(self.correctly_typed / self.total_n_characters * 100)
-            print(f'Accuracy: {self.accuracy}%')
 
             #   wpm calculations
-            results = timedelta(seconds=self.end - self.start).seconds
-            raw_minutes = results / 60
-            print(f'it took you: {results} seconds')
-            minutes = round(raw_minutes, 2)
-            print(f'it took you: {minutes} minutes')
-
-            #Gross WPM
-            # all typed entires divided by 5 divded by minutes
-            letter_count = 0
-            for word in raw_typed_words:
-                for c in word:
-                    letter_count += 1
-            print('letter count', letter_count)
+            self.typed_execution_calculation()
 
 
-            self.gross_words_per_minute = round((letter_count / 5) / minutes, 1)
-            print(f'your gross words per minute {self.gross_words_per_minute}')
-
+            # Gross WPM
+            self.gross_wpm_calculation()
 
             # Net words per minute
-            self.errors_per_minute = (self.errors / minutes)
+            self.errors_per_minute_calculation()
 
-            #Net typing speed (gross words per minute/ errors per minute)
-            self.net_words_per_minute = round((self.gross_words_per_minute - self.errors_per_minute), 2)
-            print(f'Your net words per minute: {self.net_words_per_minute}')
 
+            # Net typing speed (gross words per minute/ errors per minute)
+            self.net_words_per_minute_calculation()
 
             # Add  calculations to labels
             self.update_labels()
 
-
-
             self.show_frame(self.frame_score_menu)
+
+        def typed_execution_calculation(self):
+            self.results = timedelta(seconds=self.end - self.start).seconds
+            self.raw_minutes = self.results / 60
+            print(f'it took you: {self.results} seconds')
+            self.minutes = round(self.raw_minutes, 2)
+            print(f'it took you: {self.minutes} minutes')
+
+        def gross_wpm_calculation(self):
+            # all typed entires divided by 5 divded by minutes
+            letter_count = 0
+            for word in self.raw_typed_words:
+                for c in word:
+                    letter_count += 1
+            print('letter count', letter_count)
+
+            self.gross_words_per_minute = round((letter_count / 5) / self.minutes, 1)
+            print(f'your gross words per minute {self.gross_words_per_minute}')
+
+        def errors_per_minute_calculation(self):
+            self.errors_per_minute = (self.errors / self.minutes)
+
+        def net_words_per_minute_calculation(self):
+            self.net_words_per_minute = round((self.gross_words_per_minute - self.errors_per_minute), 2)
+            print(f'Your net words per minute: {self.net_words_per_minute}')
+
+        def error_rate_calculations(self):
+            # error rate calculations
+            for i in range(len(self.words)):
+                self.errors += jellyfish.damerau_levenshtein_distance(self.words[i], self.raw_typed_words[i])
+                self.total_n_characters += len(self.words[i])
+            # print('total_chars', self.total_n_characters)
+            # print('errors', self.errors)
+
+        def calculate_correctly_typed(self):
+            self.correctly_typed = self.total_n_characters - self.errors
+            print('number of correctly typed', self.correctly_typed)
+
+        def calculate_accuracy(self):
+            self.accuracy = round(self.correctly_typed / self.total_n_characters * 100)
+            print(f'Accuracy: {self.accuracy}%')
 
         def update_labels(self):
             self.wpm_output_label.config(text=f'Speed\n{self.net_words_per_minute}(WPM)')
