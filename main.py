@@ -129,7 +129,7 @@ def main():
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             # Speed Wpm Label
-            self.wpm_output_label = Label(self.frame_score_menu, text=f'Speed\n ##(WPM)', borderwidth=1, relief='solid')
+            self.wpm_output_label = Label(self.frame_score_menu, text=f'', borderwidth=1, relief='solid')
             self.wpm_output_label.grid(row=1, column=1, pady=5)
 
             # Accuracy Label
@@ -240,12 +240,11 @@ def main():
             :param frame:
             :return:
             """
-            raw_typed_words = self.text_box.get(1.0, END).split()
+            data = self.text_box.get(1.0, END).lower()
+            raw_typed_words = data.split()
             self.end = timer()
             print(raw_typed_words)
 
-
-            # print(self.words)
 
             # Removes line breaks from the list we wanna check
             for i, v in enumerate(self.words):
@@ -286,12 +285,36 @@ def main():
 
             #Gross WPM
             # all typed entires divided by 5 divded by minutes
-            self.gross_words_per_minute = round((len_user_typed / 5) / minutes, 1)
+            letter_count = 0
+            for word in raw_typed_words:
+                for c in word:
+                    letter_count += 1
+            print('letter count', letter_count)
+
+
+            self.gross_words_per_minute = round((letter_count / 5) / minutes, 1)
             print(f'your gross words per minute {self.gross_words_per_minute}')
+
+
+            # Net words per minute
+            self.errors_per_minute = (self.errors / minutes)
+
+            #Net typing speed (gross words per minute/ errors per minute)
+            self.net_words_per_minute = round((self.gross_words_per_minute - self.errors_per_minute), 2)
+            print(f'Your net words per minute: {self.net_words_per_minute}')
+
+
+            # Add  calculations to labels
+            self.update_labels()
 
 
 
             self.show_frame(self.frame_score_menu)
+
+        def update_labels(self):
+            self.wpm_output_label.config(text=f'Speed\n{self.net_words_per_minute}(WPM)')
+            self.accuracy_output_label.config(text=f'Accuray\n{self.accuracy}%')
+            self.missed_words_label.config(text=f'Errors:\n{self.errors}')
 
         def Close(self):
             """
