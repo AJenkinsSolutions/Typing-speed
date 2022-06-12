@@ -59,18 +59,18 @@ def main():
 
             #   Difficulty options
             self.easy_mode_button = Button(self.frame_home, text='Easy', padx=40,
-                                           command=self.easy_mode_button_func)
-            self.easy_mode_button.configure(bg='#228B22', fg='white')
+                                           command=self.easy_mode_button_func, bg='#228B22', fg='white')
+            # self.easy_mode_button.configure(bg='#228B22', fg='white')
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
             self.medium_mode_button = Button(self.frame_home, text='Medium', padx=30,
-                                             command=self.medium_mode_button_func)
-            self.medium_mode_button.configure(bg='#228B22', fg='white')
+                                             command=self.medium_mode_button_func, bg='#228B22', fg='white')
+            # self.medium_mode_button.configure(bg='#228B22', fg='white')
             self.medium_mode_button.grid(row=2, column=1, padx=20, pady=20)
 
             self.hard_mode_button = Button(self.frame_home, text='Hard', padx=40,
-                                           command=self.hard_mode_button_func)
-            self.hard_mode_button.configure(bg='#228B22', fg='white')
+                                           command=self.hard_mode_button_func, bg='#228B22', fg='white')
+            # self.hard_mode_button.configure(bg='#228B22', fg='white')
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
             #   Start Game button
@@ -343,8 +343,29 @@ def main():
             reset the game
 
             """
-            frame.tkraise()
+
             self.reset_Game()
+
+            #   start typing reset
+            self.start_game_button_state = 'disabled'
+            self.start_game_button.config(state=self.start_game_button_state)
+
+            # reset sentecnes and words
+            self.sentence = None
+            self.words = None
+
+
+            # Turn all button states back on
+            self.easy_mode_button_state = 'active'
+            self.medium_mode_button_state = 'active'
+            self.hard_mode_button_state = 'active'
+            self.easy_mode_button.config(state=self.easy_mode_button_state, bg='#228B22', fg='white')
+            self.medium_mode_button.config(state=self.medium_mode_button_state, bg='#228B22', fg='white')
+            self.hard_mode_button.config(state=self.hard_mode_button_state, bg='#228B22', fg='white')
+
+            frame.tkraise()
+
+
 
         def start_Game(self):
             """
