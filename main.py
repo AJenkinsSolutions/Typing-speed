@@ -26,6 +26,7 @@ def main():
             #   States
             self.game_on = None
             self.start_game_button_state = 'disabled'
+            self.classic_mode_start_game_button_state = 'disabled'
             self.text_box_state = 'disabled'
 
 
@@ -137,6 +138,13 @@ def main():
             self.classic_mode_drop_down = OptionMenu(self.classic_mode_frame, self.clicked,  *self.classic_mode_options, command=self.get_drop_down_selection)
             self.classic_mode_drop_down.grid(row=1, column=1, padx=20, pady=20)
 
+            #   Start Game button
+            self.classic_mode_start_game_button = Button(self.classic_mode_frame, text='Start Typing', padx=60,
+                                                         state=self.classic_mode_start_game_button_state,
+                                                        command=lambda: self.show_frame(self.frame_main))
+
+            self.classic_mode_start_game_button.grid(row=2, column=1, padx=20, pady=40)
+
 
 
 
@@ -222,9 +230,18 @@ def main():
             #   Easy words
         #   Classic Mode Funcs
         def get_drop_down_selection(self, event):
-            selection = self.clicked.get()
-            print(selection)
+            '''
+            Select a time frame for game to take place within
+            sets our texts and words
+            activate the start game button
 
+            :param event:
+            :return:
+            '''
+            self.mode_selection = self.clicked.get()
+            # print(self.mode_selection)
+            self.classic_mode_start_game_button_state = 'active'
+            self.classic_mode_start_game_button.config(state=self.classic_mode_start_game_button_state)
 
         # ============= Difficulty Modes buttons  ==================#
         def easy_mode_button_func(self):
