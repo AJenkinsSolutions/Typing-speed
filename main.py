@@ -59,16 +59,20 @@ def main():
             self.title_label = Label(self.game_mode_frame, text='Select Game Mode', font=('Helvetica', 24, 'bold'))
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
-            # self.choose_game_mode_label = Label(self.choose_game_mode_label, text='Choose Game mode')
+            #   Mode Selection buttons
 
-            self.classic_mode_button = Button(self.game_mode_frame, text='Classic Mode')
+            self.classic_mode_button = Button(self.game_mode_frame, text='Classic Mode',
+                                              command=lambda: self.show_frame(self.classic_mode_frame)
+                                              )
             self.classic_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
-            self.no_time_limit_mode = Button(self.game_mode_frame, text='No Time limit Mode')
+            self.no_time_limit_mode = Button(self.game_mode_frame, text='No Time limit Mode',
+                                             command=lambda: self.show_frame(self.frame_home_2)
+                                             )
             self.no_time_limit_mode.grid(row=2, column=1, padx=20, pady=20)
 
 
-            # ==================================== page 1.5 ====================================#
+            # ==================================== No timelimit game mode frame  ====================================#
             #   Home Frame
             self.frame_home_2 = Frame(self.root, background='white')
 
@@ -102,6 +106,11 @@ def main():
                                             command=lambda: self.show_frame(self.frame_main))
 
             self.start_game_button.grid(row=4, column=1, padx=20, pady=40)
+
+            # ==================================== Classic mode frame ====================================#
+
+            self.classic_mode_frame = Frame(self.root, background='green')
+
 
             # ==================================== page 2 ====================================#
             # Main Frame
@@ -173,7 +182,7 @@ def main():
             #    =======================   Show frames to screen   =====================================    #
 
             #   Position Frames
-            self.position_frames(self.frame_main, self.game_mode_frame, self.frame_home_2, self.frame_score_menu)
+            self.position_frames(self.frame_main, self.game_mode_frame, self.frame_home_2,self.classic_mode_frame, self.frame_score_menu)
 
             #   Show Frame HOME FRAME
             self.show_frame(self.game_mode_frame)
@@ -452,8 +461,8 @@ def main():
             self.text_box.delete(1.0, END)
 
         # ============= Screen configuration ==================#
-        def position_frames(self, f1, f2, f3, f4):
-            for frame in (f1, f2, f3, f4):
+        def position_frames(self, f1, f2, f3, f4, f5):
+            for frame in (f1, f2, f3, f4, f5):
                 frame.grid(row=0, column=0, sticky='nsew')
 
         def show_frame(self, frame):
