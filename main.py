@@ -27,6 +27,9 @@ def main():
             self.game_on = None
             self.start_game_button_state = 'disabled'
             self.text_box_state = 'disabled'
+
+
+
             #   Button states
             self.easy_mode_button_state = 'active'
             self.medium_mode_button_state = 'active'
@@ -119,6 +122,24 @@ def main():
             self.title_label = Label(self.classic_mode_frame, text='Classic mode', font=('Helvetica', 24, 'bold'))
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
+            # Classic mode time selections
+            self.classic_mode_options = [
+                '1 minute',
+                '2 minute',
+                '3 minute',
+                '4 minute',
+                '5 minute',
+
+            ]
+            self.clicked = StringVar()
+            self.clicked.set(self.classic_mode_options[0])
+
+            self.classic_mode_drop_down = OptionMenu(self.classic_mode_frame, self.clicked,  *self.classic_mode_options, command=self.get_drop_down_selection)
+            self.classic_mode_drop_down.grid(row=1, column=1, padx=20, pady=20)
+
+
+
+
 
             # ==================================== page 2 ====================================#
             # Main Frame
@@ -199,6 +220,11 @@ def main():
             self.root.mainloop()
 
             #   Easy words
+        #   Classic Mode Funcs
+        def get_drop_down_selection(self, event):
+            selection = self.clicked.get()
+            print(selection)
+
 
         # ============= Difficulty Modes buttons  ==================#
         def easy_mode_button_func(self):
