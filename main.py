@@ -61,6 +61,13 @@ def main():
 
             # self.choose_game_mode_label = Label(self.choose_game_mode_label, text='Choose Game mode')
 
+            self.classic_mode_button = Button(self.game_mode_frame, text='Classic Mode')
+            self.classic_mode_button.grid(row=1, column=1, padx=20, pady=20)
+
+            self.no_time_limit_mode = Button(self.game_mode_frame, text='No Time limit Mode')
+            self.no_time_limit_mode.grid(row=2, column=1, padx=20, pady=20)
+
+
             # ==================================== page 1.5 ====================================#
             #   Home Frame
             self.frame_home_2 = Frame(self.root, background='white')
