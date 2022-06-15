@@ -109,7 +109,15 @@ def main():
 
             # ==================================== Classic mode frame ====================================#
 
-            self.classic_mode_frame = Frame(self.root, background='green')
+            self.classic_mode_frame = Frame(self.root, background='grey')
+
+            #   Buttons
+            self.exit_button = Button(self.classic_mode_frame, text='Exit', command=self.Close)
+            self.exit_button.grid(row=0, column=0, padx=20, pady=30)
+
+            #   Title label
+            self.title_label = Label(self.classic_mode_frame, text='Classic mode', font=('Helvetica', 24, 'bold'))
+            self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
 
             # ==================================== page 2 ====================================#
