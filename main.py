@@ -36,6 +36,8 @@ def main():
             self.words = None
             self.sentence = None
 
+
+            #   Word Calculation
             self.user_typed = None
             self.accuracy = None
             self.correctly_typed = None
@@ -45,36 +47,47 @@ def main():
             self.r = RandomWord()
             #   Creating our pages and configure
 
-            # ==================================== page 1 ====================================#
+            # ==================================== Select Game mode frame ====================================#
+            self.game_mode_frame = Frame(self.root, background='grey')
+
+            #   Exit
+            self.exit_button = Button(self.game_mode_frame, text='Exit', command=self.Close)
+            self.exit_button.grid(row=0, column=0, padx=20, pady=30)
+
+            # self.choose_game_mode_label = Label(self.choose_game_mode_label, text='Choose Game mode')
+
+
+
+            # ==================================== page 1.5 ====================================#
             #   Home Frame
-            self.frame_home = Frame(self.root, background='white')
+            self.frame_home_2 = Frame(self.root, background='white')
 
             #   Buttons
-            self.exit_button = Button(self.frame_home, text='Exit', command=self.Close)
+            self.exit_button = Button(self.frame_home_2, text='Exit', command=self.Close)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
             #   Title label
-            self.title_label = Label(self.frame_home, text='Typing Speed test', font=('Helvetica', 24, 'bold'))
+            self.title_label = Label(self.frame_home_2, text='Typing Speed test', font=('Helvetica', 24, 'bold'))
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             #   Difficulty options
-            self.easy_mode_button = Button(self.frame_home, text='Easy', padx=40,
+            self.easy_mode_button = Button(self.frame_home_2, text='Easy', padx=40,
                                            command=self.easy_mode_button_func, bg='#228B22', fg='white')
             # self.easy_mode_button.configure(bg='#228B22', fg='white')
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
-            self.medium_mode_button = Button(self.frame_home, text='Medium', padx=30,
+            self.medium_mode_button = Button(self.frame_home_2, text='Medium', padx=30,
                                              command=self.medium_mode_button_func, bg='#228B22', fg='white')
             # self.medium_mode_button.configure(bg='#228B22', fg='white')
             self.medium_mode_button.grid(row=2, column=1, padx=20, pady=20)
 
-            self.hard_mode_button = Button(self.frame_home, text='Hard', padx=40,
+            self.hard_mode_button = Button(self.frame_home_2, text='Hard', padx=40,
                                            command=self.hard_mode_button_func, bg='#228B22', fg='white')
             # self.hard_mode_button.configure(bg='#228B22', fg='white')
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
             #   Start Game button
-            self.start_game_button = Button(self.frame_home, text='Start Typing', padx=60,
+            self.start_game_button = Button(self.frame_home_2, text='Start Typing', padx=60,
                                             state=self.start_game_button_state,
                                             command=lambda: self.show_frame(self.frame_main))
 
@@ -112,7 +125,7 @@ def main():
             self.reset_button.grid(row=4, column=1, pady=5)
 
             self.home_button = Button(self.frame_main, text='Home',
-                                      command=lambda: self.back_Home(self.frame_home),
+                                      command=lambda: self.back_Home(self.frame_home_2),
                                       padx=24)
             self.home_button.grid(row=5, column=1, pady=5)
 
@@ -143,28 +156,27 @@ def main():
 
             #   Play again button
             self.home_button = Button(self.frame_score_menu, text='Play Again',
-                                      command=lambda: self.back_Home(self.frame_home),
+                                      command=lambda: self.back_Home(self.frame_home_2),
                                       padx=24)
             self.home_button.grid(row=4, column=1, pady=5)
 
+
+            #    =======================   Show frames to screen   =====================================    #
+
             #   Position Frames
-            self.position_frames(self.frame_main, self.frame_home, self.frame_score_menu)
-            #   Show Frame on screen
-            self.show_frame(self.frame_home)
+            self.position_frames(self.frame_main, self.game_mode_frame, self.frame_home_2, self.frame_score_menu)
+
+            #   Show Frame HOME FRAME
+            self.show_frame(self.game_mode_frame)
 
             #   TKINTER Main loop
             self.root.mainloop()
 
             #   Easy words
 
-        def generate_sentence(self, lines):
-            self.words = []
-            for n in range(lines):
-                self.words += [self.r.word() for w in range(8)]
-                self.words.append('\n')
-            self.sentence = ' '.join(self.words)
-            print(self.sentence, self.words)
 
+
+        # ============= Difficulty Modes buttons  ==================#
         def easy_mode_button_func(self):
             """
             easy mode pressed
@@ -226,6 +238,7 @@ def main():
                 self.start_game_button_state = 'active'
                 self.start_game_button.config(state=self.start_game_button_state)
 
+        # ============= Words Configuration ========================#
         def add_words_to_label(self):
             self.word_box_label.config(text=self.sentence)
 
@@ -284,6 +297,15 @@ def main():
 
             self.show_frame(self.frame_score_menu)
 
+        def generate_sentence(self, lines):
+            self.words = []
+            for n in range(lines):
+                self.words += [self.r.word() for w in range(8)]
+                self.words.append('\n')
+            self.sentence = ' '.join(self.words)
+            print(self.sentence, self.words)
+
+        # ============= Typing speed Calculations ==================#
         def typed_execution_calculation(self):
             self.results = timedelta(seconds=self.end - self.start).seconds
             self.raw_minutes = self.results / 60
@@ -330,6 +352,8 @@ def main():
             self.accuracy_output_label.config(text=f'Accuray\n{self.accuracy}%')
             self.missed_words_label.config(text=f'Errors:\n{self.errors}')
 
+    # ============= Navigation buttons ==================#
+
         def Close(self):
             """
             Closes the root window
@@ -365,8 +389,6 @@ def main():
 
             frame.tkraise()
 
-
-
         def start_Game(self):
             """
             1: Start button in frame main
@@ -397,6 +419,7 @@ def main():
             self.reset_timer()
             self.clear_text_box()
 
+    # ============= timer =================================#
         def timer(self):
             if self.game_on:
                 #   Increment clock by one
@@ -425,8 +448,9 @@ def main():
             """
             self.text_box.delete(1.0, END)
 
-        def position_frames(self, f1, f2, f3):
-            for frame in (f1, f2, f3):
+    # ============= Screen configuration ==================#
+        def position_frames(self, f1, f2, f3, f4):
+            for frame in (f1, f2, f3, f4):
                 frame.grid(row=0, column=0, sticky='nsew')
 
         def show_frame(self, frame):
