@@ -36,7 +36,6 @@ def main():
             self.words = None
             self.sentence = None
 
-
             #   Word Calculation
             self.user_typed = None
             self.accuracy = None
@@ -50,13 +49,17 @@ def main():
             # ==================================== Select Game mode frame ====================================#
             self.game_mode_frame = Frame(self.root, background='grey')
 
-            #   Exit
+            #                                         Content of frame
+
+            #   Exit Button
             self.exit_button = Button(self.game_mode_frame, text='Exit', command=self.Close)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
+            #   Title label
+            self.title_label = Label(self.game_mode_frame, text='Select Game Mode', font=('Helvetica', 24, 'bold'))
+            self.title_label.grid(row=0, column=1, padx=120, pady=30)
+
             # self.choose_game_mode_label = Label(self.choose_game_mode_label, text='Choose Game mode')
-
-
 
             # ==================================== page 1.5 ====================================#
             #   Home Frame
@@ -160,7 +163,6 @@ def main():
                                       padx=24)
             self.home_button.grid(row=4, column=1, pady=5)
 
-
             #    =======================   Show frames to screen   =====================================    #
 
             #   Position Frames
@@ -173,8 +175,6 @@ def main():
             self.root.mainloop()
 
             #   Easy words
-
-
 
         # ============= Difficulty Modes buttons  ==================#
         def easy_mode_button_func(self):
@@ -277,17 +277,14 @@ def main():
             #   Calculate Accuracy
             self.calculate_accuracy()
 
-
             #   wpm calculations
             self.typed_execution_calculation()
-
 
             # Gross WPM
             self.gross_wpm_calculation()
 
             # Net words per minute
             self.errors_per_minute_calculation()
-
 
             # Net typing speed (gross words per minute/ errors per minute)
             self.net_words_per_minute_calculation()
@@ -352,7 +349,7 @@ def main():
             self.accuracy_output_label.config(text=f'Accuray\n{self.accuracy}%')
             self.missed_words_label.config(text=f'Errors:\n{self.errors}')
 
-    # ============= Navigation buttons ==================#
+        # ============= Navigation buttons ==================#
 
         def Close(self):
             """
@@ -377,7 +374,6 @@ def main():
             # reset sentecnes and words
             self.sentence = None
             self.words = None
-
 
             # Turn all button states back on
             self.easy_mode_button_state = 'active'
@@ -419,7 +415,7 @@ def main():
             self.reset_timer()
             self.clear_text_box()
 
-    # ============= timer =================================#
+        # ============= timer =================================#
         def timer(self):
             if self.game_on:
                 #   Increment clock by one
@@ -448,7 +444,7 @@ def main():
             """
             self.text_box.delete(1.0, END)
 
-    # ============= Screen configuration ==================#
+        # ============= Screen configuration ==================#
         def position_frames(self, f1, f2, f3, f4):
             for frame in (f1, f2, f3, f4):
                 frame.grid(row=0, column=0, sticky='nsew')
