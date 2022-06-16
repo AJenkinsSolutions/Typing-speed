@@ -25,6 +25,8 @@ def main():
 
             #   States
             self.game_on = None
+            # game mode 1=classic mode, 0=endless mode
+            self.game_mode = None
             self.start_game_button_state = 'disabled'
             self.classic_mode_start_game_button_state = 'disabled'
             self.text_box_state = 'disabled'
@@ -66,14 +68,14 @@ def main():
             #   Mode Selection buttons
 
             self.classic_mode_button = Button(self.game_mode_frame, text='Classic Mode',
-                                              command=lambda: self.show_frame(self.classic_mode_frame)
+                                              command=lambda: self.classic_mode_selection(self.classic_mode_frame)
                                               )
             self.classic_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
-            self.no_time_limit_mode = Button(self.game_mode_frame, text='No Time limit Mode',
-                                             command=lambda: self.show_frame(self.frame_home_2)
-                                             )
-            self.no_time_limit_mode.grid(row=2, column=1, padx=20, pady=20)
+            self.endless_mode = Button(self.game_mode_frame, text='No Time limit Mode',
+                                       command=lambda: self.endless_mode_selection(self.frame_home_2)
+                                       )
+            self.endless_mode.grid(row=2, column=1, padx=20, pady=20)
 
 
             # ==================================== No timelimit game mode frame  ====================================#
@@ -130,8 +132,13 @@ def main():
                 '3 minute',
                 '4 minute',
                 '5 minute',
-
             ]
+            self.time_dic = {
+                '1 minute': 60,
+                '2 minute': 120,
+                '3 minute': 180,
+                '4 minute': 240,
+                '5 minute': 300}
             self.clicked = StringVar()
             self.clicked.set(self.classic_mode_options[0])
 
@@ -144,6 +151,9 @@ def main():
                                                         command=lambda: self.show_frame(self.frame_main))
 
             self.classic_mode_start_game_button.grid(row=2, column=1, padx=20, pady=40)
+
+            # ==================================== Classic mode main frame ====================================#
+
 
 
 
@@ -228,6 +238,18 @@ def main():
             self.root.mainloop()
 
             #   Easy words
+
+        # ============= Mode selection ==================#
+        def classic_mode_selection(self, frame):
+            self.game_mode = 0
+            print(self.game_mode)
+            self.show_frame(frame)
+
+        def endless_mode_selection(self, frame):
+            self.game_mode = 1
+            print(self.game_mode)
+            self.show_frame(frame)
+
         #   Classic Mode Funcs
         def get_drop_down_selection(self, event):
             '''
@@ -240,6 +262,15 @@ def main():
             '''
             self.mode_selection = self.clicked.get()
             # print(self.mode_selection)
+            # time = self.time_dic[self.mode_selection]
+            # print(time)
+
+            # Add Words and sentences to label
+            if self.sentence is None and self.words is None:
+                self.generate_sentence(5)
+                self.add_words_to_label()
+
+            #Enable start button that will take us to the main frame
             self.classic_mode_start_game_button_state = 'active'
             self.classic_mode_start_game_button.config(state=self.classic_mode_start_game_button_state)
 
@@ -313,54 +344,6 @@ def main():
             raw_typed_words = self.text_box.get(1.0, END).split()
             print(raw_typed_words)
 
-        def return_typed_text(self, event):
-            """
-            bind return key
-            capture uses typed text
-            :param frame:
-            :return:
-            """
-
-            data = self.text_box.get(1.0, END).lower()
-            self.raw_typed_words = data.split()
-            self.end = timer()
-
-            # Removes line breaks from the list we wanna check
-            for i, v in enumerate(self.words):
-                if v == '\n':
-                    self.words.pop(i)
-
-            # get the length of both list
-            len_user_typed = len(self.raw_typed_words)
-            # Create new word list to check for errors
-            self.words = self.words[:len_user_typed]
-
-            #   Error rate func
-            self.error_rate_calculations()
-
-            #   Correctly Typed
-            self.calculate_correctly_typed()
-
-            #   Calculate Accuracy
-            self.calculate_accuracy()
-
-            #   wpm calculations
-            self.typed_execution_calculation()
-
-            # Gross WPM
-            self.gross_wpm_calculation()
-
-            # Net words per minute
-            self.errors_per_minute_calculation()
-
-            # Net typing speed (gross words per minute/ errors per minute)
-            self.net_words_per_minute_calculation()
-
-            # Add  calculations to labels
-            self.update_labels()
-
-            self.show_frame(self.frame_score_menu)
-
         def generate_sentence(self, lines):
             self.words = []
             for n in range(lines):
@@ -374,6 +357,12 @@ def main():
             self.results = timedelta(seconds=self.end - self.start).seconds
             self.raw_minutes = self.results / 60
             print(f'it took you: {self.results} seconds')
+            self.minutes = round(self.raw_minutes, 2)
+            print(f'it took you: {self.minutes} minutes')
+
+        def classic_typed_execution_calculation(self):
+            self.raw_minutes = self.time / 60
+            print(f'it took you: {self.time} seconds')
             self.minutes = round(self.raw_minutes, 2)
             print(f'it took you: {self.minutes} minutes')
 
@@ -465,9 +454,114 @@ def main():
             self.text_box_state = 'normal'
             self.text_box.config(state=self.text_box_state)
             self.text_box.focus_set()
-            self.timer()
-            self.start = timer()
-            self.text_box.bind("<Return>", self.return_typed_text)
+
+            if self.game_mode == 1:
+                print('endless mode')
+                #Start timer
+                self.timer()
+                self.start = timer()
+                self.text_box.bind("<Return>", self.return_typed_text)
+            else:
+                print('classic game mode')
+                self.classic_game_mode_timer()
+
+
+
+        def calculate_classic(self):
+            # Removes line breaks from the list we wanna check
+            for i, v in enumerate(self.words):
+                if v == '\n':
+                    self.words.pop(i)
+
+            # get the length of both list
+            len_user_typed = len(self.raw_typed_words)
+            # Create new word list to check for errors
+            self.words = self.words[:len_user_typed]
+
+            #   Error rate func
+            self.error_rate_calculations()
+
+            #   Correctly Typed
+            self.calculate_correctly_typed()
+
+            #   Calculate Accuracy
+            self.calculate_accuracy()
+
+            #   wpm calculations
+            self.classic_typed_execution_calculation()
+
+            # Gross WPM
+            self.gross_wpm_calculation()
+
+            # Net words per minute
+            self.errors_per_minute_calculation()
+
+            # Net typing speed (gross words per minute/ errors per minute)
+            self.net_words_per_minute_calculation()
+
+            # Add  calculations to labels
+            self.update_labels()
+
+            self.show_frame(self.frame_score_menu)
+
+        def calculate(self):
+            # Removes line breaks from the list we wanna check
+            for i, v in enumerate(self.words):
+                if v == '\n':
+                    self.words.pop(i)
+
+            # get the length of both list
+            len_user_typed = len(self.raw_typed_words)
+            # Create new word list to check for errors
+            self.words = self.words[:len_user_typed]
+
+            #   Error rate func
+            self.error_rate_calculations()
+
+            #   Correctly Typed
+            self.calculate_correctly_typed()
+
+            #   Calculate Accuracy
+            self.calculate_accuracy()
+
+            #   wpm calculations
+            self.typed_execution_calculation()
+
+            # Gross WPM
+            self.gross_wpm_calculation()
+
+            # Net words per minute
+            self.errors_per_minute_calculation()
+
+            # Net typing speed (gross words per minute/ errors per minute)
+            self.net_words_per_minute_calculation()
+
+            # Add  calculations to labels
+            self.update_labels()
+
+            self.show_frame(self.frame_score_menu)
+
+
+
+        def return_typed_text(self, event):
+            """
+            bind return key
+            capture uses typed text
+            :param frame:
+            :return:
+            """
+            # returning text
+            self.data = self.text_box.get(1.0, END).lower()
+            self.raw_typed_words = self.data.split()
+            self.end = timer()
+            self.calculate()
+
+            #   calculations
+
+        def classic_mode_return_typed_text(self):
+            self.data = self.text_box.get(1.0, END).lower()
+            self.raw_typed_words = self.data.split()
+
 
         def reset_Game(self):
             """
@@ -482,7 +576,33 @@ def main():
             self.reset_timer()
             self.clear_text_box()
 
-        # ============= timer =================================#
+        #============= timer =================================#
+        def classic_game_mode_timer(self):
+
+            self.time = self.time_dic[self.mode_selection]
+            print(self.time)
+            if self.game_on and self.seconds < self.time:
+                print(self.seconds)
+                #   Increment clock by one
+                self.seconds += 1
+                #   Configure clock display
+                self.clock.config(text='00:' + str(self.seconds))
+
+                #   Clock display
+                if 10 > self.seconds > 0:
+                    self.clock.config(text='00:0' + str(self.seconds))
+                    self.clock.after(1000, self.classic_game_mode_timer)
+                elif self.seconds == 0:
+                    self.clock.config(text='Done')
+                else:
+                    self.clock.after(1000, self.classic_game_mode_timer)
+            else:
+                print('time reached', self.time)
+                self.reset_timer()
+                self.classic_mode_return_typed_text()
+                self.calculate_classic()
+
+
         def timer(self):
             if self.game_on:
                 #   Increment clock by one
