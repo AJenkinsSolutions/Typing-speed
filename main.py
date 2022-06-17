@@ -345,6 +345,7 @@ def main():
             if self.sentence is None and self.words is None:
                 # Generate texts
                 self.generate_sentence(5)
+                self.add_words_to_label()
                 #   Change button Apperance
                 self.medium_mode_button.config(bg='#006400', fg='white', borderless=0)
                 # modes
@@ -361,6 +362,7 @@ def main():
             if self.sentence is None and self.words is None:
                 # Generate texts
                 self.generate_sentence(8)
+                self.add_words_to_label()
                 #   Change button Apperance
                 self.hard_mode_button.config(bg='#006400', fg='white', borderless=0)
                 # modes
