@@ -398,8 +398,8 @@ def main():
             print(f'it took you: {self.minutes} minutes')
 
         def classic_typed_execution_calculation(self):
-            self.raw_minutes = self.time / 60
-            print(f'it took you: {self.time} seconds')
+            self.raw_minutes = int(self.time)
+            print(f'it took you: {int(self.time) * 60} seconds')
             self.minutes = round(self.raw_minutes, 2)
             print(f'it took you: {self.minutes} minutes')
 
@@ -501,7 +501,9 @@ def main():
             else:
                 print('classic game mode')
                 # self.classic_game_mode_timer()
+                self.get_clock_time()
                 self.run_timer()
+
 
 
 
@@ -615,9 +617,11 @@ def main():
             self.clear_text_box()
 
         #============= timer =================================#
-        def run_timer(self):
+        def get_clock_time(self):
             self.time = self.countdown_times[self.mode_selection]
-            print('debug time', self.time)
+            print('debug time - minutes', int(self.time))
+            print('debug time - seconds', int(self.time) * 60)
+
             # Set our countdown timers to a default value user selected
             self.minute_string.set(self.time)
             #   Begin count down process
@@ -626,33 +630,46 @@ def main():
                     self.second_string.get())
             except:
                 print("Incorrect values")
+            print('clock time', self.clockTime)
+        def run_timer(self):
+            if (self.clockTime > -1):
 
-            while (self.clockTime > -1):
                 self.clockTime -= 1
+
                 totalMinutes, totalSeconds = divmod(self.clockTime, 60)
 
                 totalHours = 0
                 if (totalMinutes > 60):
                     totalHours, totalMinutes = divmod(totalMinutes, 60)
 
+                #   set value
                 self.hour_string.set("{0:2d}".format(totalHours))
                 self.minute_string.set("{0:2d}".format(totalMinutes))
                 self.second_string.set("{0:2d}".format(totalSeconds))
 
+                #   configure display
+                self.hour_Textbox.config(textvariable=self.hour_string)
+                self.minute_Textbox.config(textvariable=self.minute_string)
+                self.second_Textbox.config(textvariable=self.second_string)
+                print('debug boxes configured')
+                self.clock_frame.after(1000, self.run_timer)
+
+
+
                 #   Update window interface
-                self.clock_frame.update()
-                time.sleep(1)
+                # self.clock_frame.update()
+                # time.sleep(1)
+
 
                 ### Let the user know if the timer has expired
                 if (self.clockTime == 0):
-                    messagebox.showinfo("", "Your time has expired!")
-                    # set clock back to default vaules
+                    # reset the timer default values
                     self.hour_string.set('00')
                     self.minute_string.set('00')
                     self.second_string.set('00')
 
-            self.classic_mode_return_typed_text()
-            self.calculate_classic()
+                    self.classic_mode_return_typed_text()
+                    self.calculate_classic()
 
 
 
