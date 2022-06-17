@@ -168,32 +168,54 @@ def main():
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
             #   clock
-            self.clock = Label(self.frame_main, text='00:00', padx=20, font=("helvetica", 48), fg='black', bg='grey')
-            self.clock.grid(row=0, column=1, padx=150, pady=30)
+            # self.clock = Label(self.frame_main, text='00:00', padx=20, font=("helvetica", 48), fg='black', bg='grey')
+            # self.clock.grid(row=0, column=1, padx=150, pady=30)
+
+            #   Declare Clock v2 vars
+            self.hour_string = StringVar()
+            self.minute_string = StringVar()
+            self.second_string = StringVar()
+
+            #   Set Default values
+            self.hour_string.set('00')
+            self.minute_string.set('00')
+            self.second_string.set('00')
+
+            self.clock_frame = Frame(self.frame_main)
+            self.clock_frame.grid(row=1, column=1)
+
+            #   Initialize Clock v2
+            self.hour_Textbox = Label(self.clock_frame, width=3,height=1, font=("Calibri", 24, "bold"),fg='black', bg='grey', textvariable=self.hour_string)
+            self.minute_Textbox = Label(self.clock_frame, width=3,height=1, font=("Calibri", 24, "bold"),fg='black', bg='grey', textvariable=self.minute_string)
+            self.second_Textbox = Label(self.clock_frame, width=3,height=1, font=("Calibri", 24, "bold"),fg='black', bg='grey', textvariable=self.second_string)
+            #   Clock V2 display
+            self.hour_Textbox.grid(row=0, column=0)
+            self.minute_Textbox.grid(row=0, column=1)
+            self.second_Textbox.grid(row=0, column=2)
 
             #   Word Box
             self.word_box_border = Frame(self.frame_main, width=60, height=20, highlightbackground="blue",
                                          highlightthickness=2)
-            self.word_box_border.grid(row=1, column=1, pady=5)
+            self.word_box_border.grid(row=2, column=1, pady=5)
 
             self.word_box_label = Label(self.word_box_border, text='', bd=0)
             self.word_box_label.pack()
 
             # Text Box
             self.text_box = Text(self.frame_main, width=60, height=5, bd=1, state=self.text_box_state)
-            self.text_box.grid(row=2, column=1, pady=5)
+            self.text_box.grid(row=3, column=1, pady=5)
 
             #   Buttons
             self.start_typing_button = Button(self.frame_main, text='Start', command=self.start_Game, padx=20)
-            self.start_typing_button.grid(row=3, column=1, pady=(10, 5))
+            self.start_typing_button.grid(row=4, column=1, pady=(10, 5))
 
             self.reset_button = Button(self.frame_main, text='Reset', command=self.reset_Game, padx=20)
-            self.reset_button.grid(row=4, column=1, pady=5)
+            self.reset_button.grid(row=5, column=1, pady=5)
 
             self.home_button = Button(self.frame_main, text='Home',
                                       command=lambda: self.back_Home(self.frame_home_2),
                                       padx=24)
-            self.home_button.grid(row=5, column=1, pady=5)
+            self.home_button.grid(row=6, column=1, pady=5)
 
             # ===================================== page 3 ====================================#
             self.frame_score_menu = Frame(self.root, background='white')
@@ -589,9 +611,15 @@ def main():
                 self.clock.config(text='00:' + str(self.seconds))
 
                 #   Clock display
-                if 10 > self.seconds > 0:
+                if self.seconds > 0 and self.seconds < 10:
                     self.clock.config(text='00:0' + str(self.seconds))
                     self.clock.after(1000, self.classic_game_mode_timer)
+                elif self.seconds > 10 and self.seconds < 60:
+                    self.clock.config(text='00:' + str(self.seconds))
+                    self.clock.after(1000, self.classic_game_mode_timer)
+                elif self.seconds > 60:
+                    self.clock.config(text='01:0')
+
                 elif self.seconds == 0:
                     self.clock.config(text='Done')
                 else:
