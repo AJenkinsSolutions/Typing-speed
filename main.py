@@ -170,9 +170,6 @@ def main():
             self.exit_button = Button(self.frame_main, text='Exit', command=self.Close)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
-            #   clock
-            # self.clock = Label(self.frame_main, text='00:00', padx=20, font=("helvetica", 48), fg='black', bg='grey')
-            # self.clock.grid(row=0, column=1, padx=150, pady=30)
 
             #======================= Clock Version 2===========================#
 
@@ -198,9 +195,12 @@ def main():
             self.clock_frame.grid(row=1, column=1)
 
             #   Initialize Clock v2
-            self.hour_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"), fg='black', bg='grey', textvariable=self.hour_string)
-            self.minute_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"), fg='black', bg='grey', textvariable=self.minute_string)
-            self.second_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"), fg='black', bg='grey', textvariable=self.second_string)
+            self.hour_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"), fg='black',
+                                      bg='grey', textvariable=self.hour_string)
+            self.minute_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"),
+                                        fg='black', bg='grey', textvariable=self.minute_string)
+            self.second_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"),
+                                        fg='black', bg='grey', textvariable=self.second_string)
             #   Clock V2 display
             self.hour_Textbox.grid(row=0, column=0)
             self.minute_Textbox.grid(row=0, column=1)
@@ -228,7 +228,7 @@ def main():
             self.reset_button.grid(row=5, column=1, pady=5)
 
             self.home_button = Button(self.frame_main, text='Home',
-                                      command=lambda: self.back_Home(self.frame_home_2),
+                                      command=lambda: self.back_Home(self.game_mode_frame),
                                       padx=24)
             self.home_button.grid(row=6, column=1, pady=5)
 
@@ -259,14 +259,14 @@ def main():
 
             #   Play again button
             self.home_button = Button(self.frame_score_menu, text='Play Again',
-                                      command=lambda: self.back_Home(self.frame_home_2),
+                                      command=lambda: self.back_Home(self.game_mode_frame),
                                       padx=24)
             self.home_button.grid(row=4, column=1, pady=5)
 
             #    =======================   Show frames to screen   =====================================    #
 
             #   Position Frames
-            self.position_frames(self.frame_main, self.game_mode_frame, self.frame_home_2,self.classic_mode_frame, self.frame_score_menu)
+            self.position_frames(self.frame_main, self.game_mode_frame, self.frame_home_2, self.classic_mode_frame, self.frame_score_menu)
 
             #   Show Frame HOME FRAME
             self.show_frame(self.game_mode_frame)
@@ -453,7 +453,7 @@ def main():
 
         def back_Home(self, frame):
             """
-            Raise the home page frame
+            Raise the home page frame mode
             reset the game
 
             """
@@ -464,7 +464,7 @@ def main():
             self.start_game_button_state = 'disabled'
             self.start_game_button.config(state=self.start_game_button_state)
 
-            # reset sentecnes and words
+            # reset sentences and words
             self.sentence = None
             self.words = None
 
@@ -494,8 +494,15 @@ def main():
 
             if self.game_mode == 1:
                 print('endless mode')
+                # Initialize clocks here clock display here ?
+                # self.clock = Label(self.frame_main, text='00:00', padx=20, font=("helvetica", 48), fg='black',
+                #                    bg='grey')
+                # self.clock.grid(row=0, column=1, padx=150, pady=30)
+
                 #Start timer
-                self.timer()
+                # self.timer()
+                self.get_clock_time()
+                self.run_timer_2()
                 self.start = timer()
                 self.text_box.bind("<Return>", self.return_typed_text)
             else:
@@ -581,8 +588,6 @@ def main():
 
             self.show_frame(self.frame_score_menu)
 
-
-
         def return_typed_text(self, event):
             """
             bind return key
@@ -593,6 +598,7 @@ def main():
             # returning text
             self.data = self.text_box.get(1.0, END).lower()
             self.raw_typed_words = self.data.split()
+
             self.end = timer()
             self.calculate()
 
@@ -618,60 +624,88 @@ def main():
 
         #============= timer =================================#
         def get_clock_time(self):
-            self.time = self.countdown_times[self.mode_selection]
-            print('debug time - minutes', int(self.time))
-            print('debug time - seconds', int(self.time) * 60)
+            if self.game_on:
+                if self.game_mode == 0:
+                    self.time = self.countdown_times[self.mode_selection]
+                    print('debug time - minutes', int(self.time))
+                    print('debug time - seconds', int(self.time) * 60)
 
-            # Set our countdown timers to a default value user selected
-            self.minute_string.set(self.time)
-            #   Begin count down process
-            try:
-                self.clockTime = int(self.hour_string.get()) * 3600 + int(self.minute_string.get()) * 60 + int(
-                    self.second_string.get())
-            except:
-                print("Incorrect values")
-            print('clock time', self.clockTime)
+                    # Set our countdown timers to a default value user selected
+                    self.minute_string.set(self.time)
+                    #   Begin count down process
+                try:
+                    self.clockTime = int(self.hour_string.get()) * 3600 + int(self.minute_string.get()) * 60 + int(
+                        self.second_string.get())
+                except:
+                    print("Incorrect values")
+                print('clock time', self.clockTime)
+
+
+
         def run_timer(self):
-            if (self.clockTime > -1):
+            if self.game_on:
+                if (self.clockTime > -1):
 
-                self.clockTime -= 1
+                    self.clockTime -= 1
 
-                totalMinutes, totalSeconds = divmod(self.clockTime, 60)
+                    totalMinutes, totalSeconds = divmod(self.clockTime, 60)
 
-                totalHours = 0
-                if (totalMinutes > 60):
-                    totalHours, totalMinutes = divmod(totalMinutes, 60)
+                    totalHours = 0
+                    if (totalMinutes > 60):
+                        totalHours, totalMinutes = divmod(totalMinutes, 60)
 
-                #   set value
-                self.hour_string.set("{0:2d}".format(totalHours))
-                self.minute_string.set("{0:2d}".format(totalMinutes))
-                self.second_string.set("{0:2d}".format(totalSeconds))
+                    #   set value
+                    self.hour_string.set("{0:2d}".format(totalHours))
+                    self.minute_string.set("{0:2d}".format(totalMinutes))
+                    self.second_string.set("{0:2d}".format(totalSeconds))
 
-                #   configure display
-                self.hour_Textbox.config(textvariable=self.hour_string)
-                self.minute_Textbox.config(textvariable=self.minute_string)
-                self.second_Textbox.config(textvariable=self.second_string)
-                print('debug boxes configured')
-                self.clock_frame.after(1000, self.run_timer)
-
-
-
-                #   Update window interface
-                # self.clock_frame.update()
-                # time.sleep(1)
+                    #   configure display
+                    self.hour_Textbox.config(textvariable=self.hour_string)
+                    self.minute_Textbox.config(textvariable=self.minute_string)
+                    self.second_Textbox.config(textvariable=self.second_string)
+                    print('debug boxes configured')
+                    self.clock_frame.after(1000, self.run_timer)
 
 
-                ### Let the user know if the timer has expired
-                if (self.clockTime == 0):
-                    # reset the timer default values
-                    self.hour_string.set('00')
-                    self.minute_string.set('00')
-                    self.second_string.set('00')
 
-                    self.classic_mode_return_typed_text()
-                    self.calculate_classic()
+                    #   Update window interface
+                    # self.clock_frame.update()
+                    # time.sleep(1)
 
 
+                    ### Let the user know if the timer has expired
+                    if (self.clockTime == 0):
+                        # reset the timer default values
+                        self.hour_string.set('00')
+                        self.minute_string.set('00')
+                        self.second_string.set('00')
+                        #calcutlatin
+                        self.classic_mode_return_typed_text()
+                        self.calculate_classic()
+
+        def run_timer_2(self):
+            if self.game_on:
+                if (self.clockTime > -1):
+
+                    self.clockTime += 1
+
+                    totalMinutes, totalSeconds = divmod(self.clockTime, 60)
+
+                    totalHours = 0
+                    if (totalMinutes > 60):
+                        totalHours, totalMinutes = divmod(totalMinutes, 60)
+
+                    #   set value
+                    self.hour_string.set("{0:2d}".format(totalHours))
+                    self.minute_string.set("{0:2d}".format(totalMinutes))
+                    self.second_string.set("{0:2d}".format(totalSeconds))
+
+                    #   configure display
+                    self.hour_Textbox.config(textvariable=self.hour_string)
+                    self.minute_Textbox.config(textvariable=self.minute_string)
+                    self.second_Textbox.config(textvariable=self.second_string)
+                    # print('debug boxes configured')
+                    self.clock_frame.after(1000, self.run_timer_2)
 
 
 
@@ -707,26 +741,34 @@ def main():
                 self.calculate_classic()
 
 
-        def timer(self):
-            if self.game_on:
-                #   Increment clock by one
-                self.seconds += 1
-                #   Configure clock display
-                self.clock.config(text='00:' + str(self.seconds))
-                #   Clock display
-                if 10 > self.seconds > 0:
-                    self.clock.config(text='00:0' + str(self.seconds))
-                    self.clock.after(1000, self.timer)
-                elif self.seconds == 0:
-                    self.clock.config(text='Done')
-                else:
-                    self.clock.after(1000, self.timer)
-            else:
-                self.reset_timer()
+        # def timer(self):
+        #     if self.game_on:
+        #         #   Increment clock by one
+        #         self.seconds += 1
+        #         #   Configure clock display
+        #         self.clock.config(text='00:' + str(self.seconds))
+        #         #   Clock display
+        #         if 10 > self.seconds > 0:
+        #             self.clock.config(text='00:0' + str(self.seconds))
+        #             self.clock.after(1000, self.timer)
+        #         elif self.seconds == 0:
+        #             self.clock.config(text='Done')
+        #         else:
+        #             self.clock.after(1000, self.timer)
+        #     else:
+        #         self.reset_timer()
 
         def reset_timer(self):
             self.seconds = 0
-            self.clock.config(text='00:0' + str(self.seconds))
+            # reset timer to defualt
+            self.hour_string.set('00')
+            self.minute_string.set('00')
+            self.second_string.set('00')
+            # configure timer to default
+            self.hour_Textbox.config(textvariable=self.hour_string)
+            self.minute_Textbox.config(textvariable=self.minute_string)
+            self.second_Textbox.config(textvariable=self.second_string)
+            # self.clock.config(text='00:0' + str(self.seconds))
 
         def clear_text_box(self):
             """
