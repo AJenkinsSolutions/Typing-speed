@@ -1,10 +1,11 @@
 from tkinter import *
-from tkinter import ttk
+from tkinter import messagebox
 from tkmacosx import Button
 from wonderwords import RandomSentence, RandomWord
 import jellyfish
 from timeit import default_timer as timer
 from datetime import timedelta
+import time
 
 BLUE = '#4169E1'
 
@@ -139,6 +140,8 @@ def main():
                 '3 minute': 180,
                 '4 minute': 240,
                 '5 minute': 300}
+
+
             self.clicked = StringVar()
             self.clicked.set(self.classic_mode_options[0])
 
@@ -171,6 +174,16 @@ def main():
             # self.clock = Label(self.frame_main, text='00:00', padx=20, font=("helvetica", 48), fg='black', bg='grey')
             # self.clock.grid(row=0, column=1, padx=150, pady=30)
 
+            #======================= Clock Version 2===========================#
+
+            self.countdown_times = {
+                '1 minute': '01',
+                '2 minute': '02',
+                '3 minute': '03',
+                '4 minute': '04',
+                '5 minute': '05',
+            }
+
             #   Declare Clock v2 vars
             self.hour_string = StringVar()
             self.minute_string = StringVar()
@@ -185,13 +198,15 @@ def main():
             self.clock_frame.grid(row=1, column=1)
 
             #   Initialize Clock v2
-            self.hour_Textbox = Label(self.clock_frame, width=3,height=1, font=("Calibri", 24, "bold"),fg='black', bg='grey', textvariable=self.hour_string)
-            self.minute_Textbox = Label(self.clock_frame, width=3,height=1, font=("Calibri", 24, "bold"),fg='black', bg='grey', textvariable=self.minute_string)
-            self.second_Textbox = Label(self.clock_frame, width=3,height=1, font=("Calibri", 24, "bold"),fg='black', bg='grey', textvariable=self.second_string)
+            self.hour_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"), fg='black', bg='grey', textvariable=self.hour_string)
+            self.minute_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"), fg='black', bg='grey', textvariable=self.minute_string)
+            self.second_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"), fg='black', bg='grey', textvariable=self.second_string)
             #   Clock V2 display
             self.hour_Textbox.grid(row=0, column=0)
             self.minute_Textbox.grid(row=0, column=1)
             self.second_Textbox.grid(row=0, column=2)
+
+
 
             #   Word Box
             self.word_box_border = Frame(self.frame_main, width=60, height=20, highlightbackground="blue",
@@ -283,7 +298,7 @@ def main():
             :return:
             '''
             self.mode_selection = self.clicked.get()
-            # print(self.mode_selection)
+            print(self.mode_selection)
             # time = self.time_dic[self.mode_selection]
             # print(time)
 
@@ -485,7 +500,8 @@ def main():
                 self.text_box.bind("<Return>", self.return_typed_text)
             else:
                 print('classic game mode')
-                self.classic_game_mode_timer()
+                # self.classic_game_mode_timer()
+                self.run_timer()
 
 
 
@@ -599,10 +615,53 @@ def main():
             self.clear_text_box()
 
         #============= timer =================================#
+        def run_timer(self):
+            self.time = self.countdown_times[self.mode_selection]
+            print('debug time', self.time)
+            # Set our countdown timers to a default value user selected
+            self.minute_string.set(self.time)
+            #   Begin count down process
+            try:
+                self.clockTime = int(self.hour_string.get()) * 3600 + int(self.minute_string.get()) * 60 + int(
+                    self.second_string.get())
+            except:
+                print("Incorrect values")
+
+            while (self.clockTime > -1):
+                self.clockTime -= 1
+                totalMinutes, totalSeconds = divmod(self.clockTime, 60)
+
+                totalHours = 0
+                if (totalMinutes > 60):
+                    totalHours, totalMinutes = divmod(totalMinutes, 60)
+
+                self.hour_string.set("{0:2d}".format(totalHours))
+                self.minute_string.set("{0:2d}".format(totalMinutes))
+                self.second_string.set("{0:2d}".format(totalSeconds))
+
+                #   Update window interface
+                self.clock_frame.update()
+                time.sleep(1)
+
+                ### Let the user know if the timer has expired
+                if (self.clockTime == 0):
+                    messagebox.showinfo("", "Your time has expired!")
+                    # set clock back to default vaules
+                    self.hour_string.set('00')
+                    self.minute_string.set('00')
+                    self.second_string.set('00')
+
+            self.classic_mode_return_typed_text()
+            self.calculate_classic()
+
+
+
+
+
         def classic_game_mode_timer(self):
 
-            self.time = self.time_dic[self.mode_selection]
-            print(self.time)
+            self.time = self.countdown_times[self.mode_selection]
+            print('time', self.time)
             if self.game_on and self.seconds < self.time:
                 print(self.seconds)
                 #   Increment clock by one
