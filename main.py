@@ -15,10 +15,10 @@ def main():
         def __init__(self):
             #   Creating main root
             self.root = Tk()
-            self.root.title('Root Window')
+            self.root.title('Typing Speed Test')
             self.root.rowconfigure(0, weight=1)
             self.root.columnconfigure(0, weight=1)
-            self.root.geometry('700x400+100+100')
+            self.root.geometry('750x600+100+100')
 
             # Useful Vars
             self.seconds = 0
@@ -26,18 +26,24 @@ def main():
 
             #   States
             self.game_on = None
+
             # game mode 1=classic mode, 0=endless mode
             self.game_mode = None
             self.start_game_button_state = 'disabled'
             self.classic_mode_start_game_button_state = 'disabled'
             self.text_box_state = 'disabled'
 
-
+            self.TEAL = '#6CC4A1'
+            self.GREEN = '#A0D995'
+            self.BABY_BLUE = '#4CACBC'
 
             #   Button states
             self.easy_mode_button_state = 'active'
             self.medium_mode_button_state = 'active'
             self.hard_mode_button_state = 'active'
+
+            # Game buttons
+            self.start_typing_button_state = None
 
             #   Word generation
             self.words = None
@@ -54,37 +60,37 @@ def main():
             #   Creating our pages and configure
 
             # ==================================== Select Game mode frame ====================================#
-            self.game_mode_frame = Frame(self.root, background='grey')
+            self.game_mode_frame = Frame(self.root)
 
             #                                         Content of frame
 
             #   Exit Button
-            self.exit_button = Button(self.game_mode_frame, text='Exit', command=self.Close)
+            self.exit_button = Button(self.game_mode_frame, text='Exit', command=self.Close, background=self.BABY_BLUE)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
             #   Title label
-            self.title_label = Label(self.game_mode_frame, text='Select Game Mode', font=('Helvetica', 24, 'bold'))
+            self.title_label = Label(self.game_mode_frame, text='Select Game Mode', font=('Helvetica', 24, 'bold'), background=self.GREEN, highlightthickness=1, highlightbackground='#F6E3C5')
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             #   Mode Selection buttons
 
-            self.classic_mode_button = Button(self.game_mode_frame, text='Classic Mode',
-                                              command=lambda: self.classic_mode_selection(self.classic_mode_frame)
+            self.classic_mode_button = Button(self.game_mode_frame, highlightthickness=0, text='Classic Mode',
+                                              command=lambda: self.classic_mode_selection(self.classic_mode_frame), background='#6CC4A1',
                                               )
             self.classic_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
             self.endless_mode = Button(self.game_mode_frame, text='No Time limit Mode',
-                                       command=lambda: self.endless_mode_selection(self.frame_home_2)
+                                       command=lambda: self.endless_mode_selection(self.frame_home_2), background='#6CC4A1'
                                        )
             self.endless_mode.grid(row=2, column=1, padx=20, pady=20)
 
 
             # ==================================== No timelimit game mode frame  ====================================#
             #   Home Frame
-            self.frame_home_2 = Frame(self.root, background='white')
+            self.frame_home_2 = Frame(self.root)
 
             #   Buttons
-            self.exit_button = Button(self.frame_home_2, text='Exit', command=self.Close)
+            self.exit_button = Button(self.frame_home_2, text='Exit', command=self.Close, background=self.BABY_BLUE)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
             #   Title label
@@ -93,17 +99,17 @@ def main():
 
             #   Difficulty options
             self.easy_mode_button = Button(self.frame_home_2, text='Easy', padx=40,
-                                           command=self.easy_mode_button_func, bg='#228B22', fg='white')
+                                           command=self.easy_mode_button_func, bg=self.TEAL, fg='white')
             # self.easy_mode_button.configure(bg='#228B22', fg='white')
             self.easy_mode_button.grid(row=1, column=1, padx=20, pady=20)
 
-            self.medium_mode_button = Button(self.frame_home_2, text='Medium', padx=30,
-                                             command=self.medium_mode_button_func, bg='#228B22', fg='white')
+            self.medium_mode_button = Button(self.frame_home_2, text='Medium', padx=40,
+                                             command=self.medium_mode_button_func, bg=self.TEAL, fg='white')
             # self.medium_mode_button.configure(bg='#228B22', fg='white')
             self.medium_mode_button.grid(row=2, column=1, padx=20, pady=20)
 
             self.hard_mode_button = Button(self.frame_home_2, text='Hard', padx=40,
-                                           command=self.hard_mode_button_func, bg='#228B22', fg='white')
+                                           command=self.hard_mode_button_func, bg=self.TEAL, fg='white')
             # self.hard_mode_button.configure(bg='#228B22', fg='white')
             self.hard_mode_button.grid(row=3, column=1, padx=20, pady=20)
 
@@ -116,37 +122,34 @@ def main():
 
             # ==================================== Classic mode frame ====================================#
 
-            self.classic_mode_frame = Frame(self.root, background='grey')
+            self.classic_mode_frame = Frame(self.root)
 
             #   Buttons
-            self.exit_button = Button(self.classic_mode_frame, text='Exit', command=self.Close)
+            self.exit_button = Button(self.classic_mode_frame, text='Exit', command=self.Close, background=self.BABY_BLUE)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
             #   Title label
-            self.title_label = Label(self.classic_mode_frame, text='Classic mode', font=('Helvetica', 24, 'bold'))
+            self.title_label = Label(self.classic_mode_frame, text='Classic mode', font=('Helvetica', 24, 'bold'), background=self.GREEN)
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             # Classic mode time selections
             self.classic_mode_options = [
                 '1 minute',
                 '2 minute',
-                '3 minute',
-                '4 minute',
-                '5 minute',
+                '3 minute'
             ]
             self.time_dic = {
                 '1 minute': 60,
                 '2 minute': 120,
-                '3 minute': 180,
-                '4 minute': 240,
-                '5 minute': 300}
+                '3 minute': 180
+            }
 
 
             self.clicked = StringVar()
             self.clicked.set(self.classic_mode_options[0])
 
             self.classic_mode_drop_down = OptionMenu(self.classic_mode_frame, self.clicked,  *self.classic_mode_options, command=self.get_drop_down_selection)
-            self.classic_mode_drop_down.grid(row=1, column=1, padx=20, pady=20)
+            self.classic_mode_drop_down.grid(row=1, column=1, padx=20, pady=20, )
 
             #   Start Game button
             self.classic_mode_start_game_button = Button(self.classic_mode_frame, text='Start Typing', padx=60,
@@ -167,7 +170,7 @@ def main():
             self.frame_main = Frame(self.root, background='white')
 
             #   Main Game Buttons
-            self.exit_button = Button(self.frame_main, text='Exit', command=self.Close)
+            self.exit_button = Button(self.frame_main, text='Exit', command=self.Close, background=self.BABY_BLUE)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
 
@@ -196,11 +199,11 @@ def main():
 
             #   Initialize Clock v2
             self.hour_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"), fg='black',
-                                      bg='grey', textvariable=self.hour_string)
+                                      bg=self.GREEN, textvariable=self.hour_string)
             self.minute_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"),
-                                        fg='black', bg='grey', textvariable=self.minute_string)
+                                        fg='black', bg=self.GREEN, textvariable=self.minute_string)
             self.second_Textbox = Label(self.clock_frame, width=3, height=1, font=("Calibri", 24, "bold"),
-                                        fg='black', bg='grey', textvariable=self.second_string)
+                                        fg='black', bg=self.GREEN, textvariable=self.second_string)
             #   Clock V2 display
             self.hour_Textbox.grid(row=0, column=0)
             self.minute_Textbox.grid(row=0, column=1)
@@ -209,11 +212,11 @@ def main():
 
 
             #   Word Box
-            self.word_box_border = Frame(self.frame_main, width=60, height=20, highlightbackground="blue",
+            self.word_box_border = Frame(self.frame_main, width=60, height=20, highlightbackground=self.GREEN,
                                          highlightthickness=2)
             self.word_box_border.grid(row=2, column=1, pady=5)
 
-            self.word_box_label = Label(self.word_box_border, text='', bd=0)
+            self.word_box_label = Label(self.word_box_border, text='', bd=0, font=('open sans', 16, 'normal' ))
             self.word_box_label.pack()
 
             # Text Box
@@ -221,46 +224,46 @@ def main():
             self.text_box.grid(row=3, column=1, pady=5)
 
             #   Buttons
-            self.start_typing_button = Button(self.frame_main, text='Start', command=self.start_Game, padx=20)
+            self.start_typing_button = Button(self.frame_main, text='Start', command=self.start_Game, padx=20, background=self.TEAL)
             self.start_typing_button.grid(row=4, column=1, pady=(10, 5))
 
-            self.reset_button = Button(self.frame_main, text='Reset', command=self.reset_Game, padx=20)
+            self.reset_button = Button(self.frame_main, text='Reset', command=self.reset_Game, padx=20, background=self.TEAL)
             self.reset_button.grid(row=5, column=1, pady=5)
 
             self.home_button = Button(self.frame_main, text='Home',
                                       command=lambda: self.back_Home(self.game_mode_frame),
-                                      padx=24)
+                                      padx=24, background=self.TEAL)
             self.home_button.grid(row=6, column=1, pady=5)
 
             # ===================================== page 3 ====================================#
             self.frame_score_menu = Frame(self.root, background='white')
 
             #   Score Menu Game Buttons
-            self.exit_button = Button(self.frame_score_menu, text='Exit', command=self.Close)
+            self.exit_button = Button(self.frame_score_menu, text='Exit', command=self.Close, background=self.BABY_BLUE)
             self.exit_button.grid(row=0, column=0, padx=20, pady=30)
 
             #   Title label
             self.title_label = Label(self.frame_score_menu, text='Typing Speed test\n Thank you playing',
-                                     font=('Helvetica', 24, 'bold'))
+                                     font=('Helvetica', 24, 'bold'), background=self.GREEN)
             self.title_label.grid(row=0, column=1, padx=120, pady=30)
 
             # Speed Wpm Label
-            self.wpm_output_label = Label(self.frame_score_menu, text=f'', borderwidth=1, relief='solid')
+            self.wpm_output_label = Label(self.frame_score_menu, text=f'', borderwidth=0, relief='solid', background=self.TEAL)
             self.wpm_output_label.grid(row=1, column=1, pady=5)
 
             # Accuracy Label
-            self.accuracy_output_label = Label(self.frame_score_menu, text=f'Accuracy\n ##(%)', borderwidth=1,
-                                               relief='solid')
+            self.accuracy_output_label = Label(self.frame_score_menu, text=f'Accuracy\n ##(%)', borderwidth=0,
+                                               relief='solid', background=self.TEAL)
             self.accuracy_output_label.grid(row=2, column=1, pady=5)
 
             # Speed Wpm Label
-            self.missed_words_label = Label(self.frame_score_menu, text=f'Missed\n ##', borderwidth=1, relief='solid')
+            self.missed_words_label = Label(self.frame_score_menu, text=f'Missed\n ##', borderwidth=0, relief='solid', background=self.TEAL)
             self.missed_words_label.grid(row=3, column=1, pady=5)
 
             #   Play again button
             self.home_button = Button(self.frame_score_menu, text='Play Again',
                                       command=lambda: self.back_Home(self.game_mode_frame),
-                                      padx=24)
+                                      padx=24, background=self.BABY_BLUE)
             self.home_button.grid(row=4, column=1, pady=5)
 
             #    =======================   Show frames to screen   =====================================    #
@@ -304,7 +307,8 @@ def main():
 
             # Add Words and sentences to label
             if self.sentence is None and self.words is None:
-                self.generate_sentence(5)
+
+                self.generate_sentence(10)
                 self.add_words_to_label()
 
             #Enable start button that will take us to the main frame
@@ -326,7 +330,7 @@ def main():
                 self.generate_sentence(3)
                 self.add_words_to_label()
                 #   Change button Appearance
-                self.easy_mode_button.config(bg='#006400', fg='white', borderless=0)
+                self.easy_mode_button.config(bg=self.TEAL, fg='white', borderless=0)
                 # Clean up other modes states
                 self.medium_mode_button_state = 'disabled'
                 self.medium_mode_button.config(state=self.medium_mode_button_state)
@@ -347,7 +351,7 @@ def main():
                 self.generate_sentence(5)
                 self.add_words_to_label()
                 #   Change button Apperance
-                self.medium_mode_button.config(bg='#006400', fg='white', borderless=0)
+                self.medium_mode_button.config(bg=self.TEAL, fg='white', borderless=0)
                 # modes
                 self.easy_mode_button_state = 'disabled'
                 self.easy_mode_button.config(state=self.easy_mode_button_state)
@@ -364,7 +368,7 @@ def main():
                 self.generate_sentence(8)
                 self.add_words_to_label()
                 #   Change button Apperance
-                self.hard_mode_button.config(bg='#006400', fg='white', borderless=0)
+                self.hard_mode_button.config(bg=self.TEAL, fg='white', borderless=0)
                 # modes
                 self.medium_mode_button_state = 'disabled'
                 self.medium_mode_button.config(state=self.medium_mode_button_state)
@@ -496,21 +500,20 @@ def main():
 
             if self.game_mode == 1:
                 print('endless mode')
-                # Initialize clocks here clock display here ?
-                # self.clock = Label(self.frame_main, text='00:00', padx=20, font=("helvetica", 48), fg='black',
-                #                    bg='grey')
-                # self.clock.grid(row=0, column=1, padx=150, pady=30)
+                self.start_typing_button_state = 'disabled'
+                self.start_typing_button.configure(state=self.start_typing_button_state)
 
-                #Start timer
-                # self.timer()
                 self.get_clock_time()
                 self.run_timer_2()
                 self.start = timer()
                 self.text_box.bind("<Return>", self.return_typed_text)
             else:
                 print('classic game mode')
-                # self.classic_game_mode_timer()
+                self.start_typing_button_state = 'disabled'
+                self.start_typing_button.configure(state=self.start_typing_button_state)
+
                 self.get_clock_time()
+                print('???????debug end of timer ??????')
                 self.run_timer()
 
 
@@ -618,11 +621,17 @@ def main():
             resets random text
             resets all wpm and accuracy calculations
             resets all current game states
+            Reactivate start button
             :return:
             """
             self.game_on = False
             self.reset_timer()
             self.clear_text_box()
+
+            self.start_typing_button_state = 'active'
+            self.start_typing_button.configure(state=self.start_typing_button_state, background=self.TEAL)
+
+
 
         #============= timer =================================#
         def get_clock_time(self):
@@ -645,6 +654,7 @@ def main():
 
 
         def run_timer(self):
+
             if self.game_on:
                 if (self.clockTime > -1):
 
@@ -743,22 +753,6 @@ def main():
                 self.calculate_classic()
 
 
-        # def timer(self):
-        #     if self.game_on:
-        #         #   Increment clock by one
-        #         self.seconds += 1
-        #         #   Configure clock display
-        #         self.clock.config(text='00:' + str(self.seconds))
-        #         #   Clock display
-        #         if 10 > self.seconds > 0:
-        #             self.clock.config(text='00:0' + str(self.seconds))
-        #             self.clock.after(1000, self.timer)
-        #         elif self.seconds == 0:
-        #             self.clock.config(text='Done')
-        #         else:
-        #             self.clock.after(1000, self.timer)
-        #     else:
-        #         self.reset_timer()
 
         def reset_timer(self):
             self.seconds = 0
@@ -787,33 +781,7 @@ def main():
         def show_frame(self, frame):
             frame.tkraise()
 
-    # s = RandomSentence()
-    # d = s.sentence()
-    # print(d)
-    # for i in range(4):
-    #     print(s.sentence())
 
-    # #   Easy words
-    # def generate_sentence(lines):
-    #     words = []
-    #     for i in range(lines):
-    #         words += [r.word(word_min_length=2, word_max_length=5) for i in range(8)]
-    #         words.append('\n')
-    #     sentence = ' '.join(words)
-    #     return sentence, words
-
-    # sentence, raw_words = generate_sentence(3)
-    # print(raw_words)
-    # print(sentence)
-
-    # checking for line breaks
-    # then removing them
-    # for i, v in enumerate(raw_words):
-    #     if v == '\n':
-    #         raw_words.pop(i)
-    #     else:
-    #         print(v)
-    # print(raw_words)
     test = Window()
 
 
